@@ -1,0 +1,80 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .logo-icon {
+            background-color: #00b359;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        .logo-text {
+            color: #008f47;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+    }
+
+    .navigation {
+        ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+
+            li {
+                a {
+                    text-decoration: none;
+                    color: #333;
+                    font-weight: 500;
+                    font-size: 1rem;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: #00b359;
+                    }
+                }
+            }
+        }
+    }
+
+    .cta-container {
+        .login-btn {
+            background-color: #00b359;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+
+            &:hover {
+                background-color: #00994d;
+            }
+        }
+    }
+}

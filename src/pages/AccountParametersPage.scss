@@ -1,0 +1,215 @@
+.account-parameters-page {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 5%;
+
+    .account-layout {
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        gap: 2rem;
+        align-items: flex-start;
+
+        @media (max-width: 968px) {
+            flex-direction: column;
+        }
+    }
+
+    .parameters-content {
+        flex: 1;
+        width: 100%;
+
+        .page-header {
+            margin-bottom: 2rem;
+
+            h1 {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #0f172a;
+                margin-bottom: 0.5rem;
+            }
+
+            p {
+                color: #64748b;
+                font-size: 0.95rem;
+            }
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+
+            .section-header {
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                margin-bottom: 1.5rem;
+
+                .icon-wrapper {
+                    width: 32px;
+                    height: 32px;
+                    background-color: #e6fcf5;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #00b359;
+                }
+
+                h2 {
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: #0f172a;
+                    margin: 0;
+                }
+            }
+
+            .setting-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 0;
+                border-bottom: 1px solid #f1f5f9;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .setting-info {
+                    h3 {
+                        font-size: 0.95rem;
+                        font-weight: 600;
+                        color: #0f172a;
+                        margin: 0 0 0.2rem 0;
+                    }
+
+                    p {
+                        font-size: 0.85rem;
+                        color: #64748b;
+                        margin: 0;
+                    }
+                }
+
+                /* Custom Toggle Switch */
+                .toggle-switch {
+                    position: relative;
+                    width: 44px;
+                    height: 24px;
+
+                    input {
+                        opacity: 0;
+                        width: 0;
+                        height: 0;
+
+                        &:checked+.slider {
+                            background-color: #00b359;
+                        }
+
+                        &:checked+.slider:before {
+                            transform: translateX(20px);
+                        }
+                    }
+
+                    .slider {
+                        position: absolute;
+                        cursor: pointer;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: #e2e8f0;
+                        transition: .4s;
+                        border-radius: 34px;
+
+                        &:before {
+                            position: absolute;
+                            content: "";
+                            height: 18px;
+                            width: 18px;
+                            left: 3px;
+                            bottom: 3px;
+                            background-color: white;
+                            transition: .4s;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+
+            /* Form inputs for Region section */
+            .form-group {
+                margin-bottom: 1.2rem;
+
+                label {
+                    display: block;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #334155;
+                    margin-bottom: 0.5rem;
+                }
+
+                .select-wrapper {
+                    position: relative;
+
+                    select {
+                        width: 100%;
+                        padding: 0.6rem 0.8rem;
+                        border: 1px solid #cbd5e1;
+                        border-radius: 6px;
+                        font-size: 0.95rem;
+                        color: #0f172a;
+                        background-color: white;
+                        appearance: none;
+                        cursor: pointer;
+
+                        &:focus {
+                            outline: none;
+                            border-color: #00b359;
+                            box-shadow: 0 0 0 3px rgba(0, 179, 89, 0.1);
+                        }
+                    }
+
+                    .select-arrow {
+                        position: absolute;
+                        right: 0.8rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        color: #0f172a;
+                        pointer-events: none;
+                    }
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .page-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+
+            .btn-save {
+                background-color: #00b359;
+                color: white;
+                border: none;
+                padding: 0.8rem 1.5rem;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 0.95rem;
+                cursor: pointer;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: #00994d;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,306 @@
+.account-page {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 5%;
+
+    .account-layout {
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        gap: 2rem;
+        align-items: flex-start;
+
+        @media (max-width: 968px) {
+            flex-direction: column;
+        }
+    }
+
+
+
+    /* Main Content */
+    .account-content {
+        flex: 1;
+        width: 100%;
+
+        .content-header {
+            margin-bottom: 2rem;
+
+            h1 {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #0f172a;
+                margin-bottom: 0.5rem;
+            }
+
+            p {
+                color: #64748b;
+                font-size: 0.95rem;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+
+            h2 {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #0f172a;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        /* Profile Photo */
+        .profile-photo-section {
+            .photo-actions {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+
+                .avatar {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    background-color: #e6fcf5;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    color: #00b359;
+                    font-size: 1.5rem;
+                    font-weight: 700;
+
+                    .edit-icon {
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        background-color: #00b359;
+                        color: white;
+                        width: 28px;
+                        height: 28px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: 2px solid white;
+                    }
+                }
+
+                .photo-info {
+                    h3 {
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                        margin-bottom: 0.3rem;
+                        color: #0f172a;
+                    }
+
+                    p {
+                        font-size: 0.85rem;
+                        color: #94a3b8;
+                        margin-bottom: 0.8rem;
+                    }
+
+                    .action-buttons {
+                        display: flex;
+                        gap: 0.8rem;
+                    }
+                }
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            &-primary {
+                background-color: #00b359;
+                color: white;
+                border-color: #00b359;
+
+                &:hover {
+                    background-color: #00994d;
+                }
+            }
+
+            &-outline {
+                background-color: white;
+                color: #64748b;
+                border-color: #cbd5e1;
+
+                &:hover {
+                    background-color: #f1f5f9;
+                    color: #334155;
+                }
+            }
+
+            &-success {
+                background-color: #00b359;
+                color: white;
+
+                &:hover {
+                    background-color: #00994d;
+                }
+            }
+
+            &-danger {
+                background-color: #dc2626;
+                color: white;
+
+                &:hover {
+                    background-color: #b91c1c;
+                }
+            }
+        }
+
+        /* Forms */
+        .personal-info-form {
+            .form-row {
+                display: flex;
+                gap: 1.5rem;
+
+                @media (max-width: 640px) {
+                    flex-direction: column;
+                    gap: 0;
+                }
+
+                .form-group {
+                    flex: 1;
+                }
+            }
+
+            .form-group {
+                margin-bottom: 1.2rem;
+
+                label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    color: #334155;
+                    font-weight: 600;
+                    font-size: 0.85rem;
+                }
+
+                input {
+                    width: 100%;
+                    padding: 0.6rem 0.8rem;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 6px;
+                    font-size: 0.95rem;
+                    color: #0f172a;
+                    box-sizing: border-box;
+
+                    &:focus {
+                        outline: none;
+                        border-color: #00b359;
+                        box-shadow: 0 0 0 3px rgba(0, 179, 89, 0.1);
+                    }
+                }
+
+                .input-with-icon {
+                    position: relative;
+
+                    .icon {
+                        position: absolute;
+                        left: 0.8rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        color: #94a3b8;
+                        display: flex;
+                    }
+
+                    .icon-right {
+                        position: absolute;
+                        right: 0.8rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        color: #64748b;
+                        display: flex;
+                    }
+
+                    input {
+                        padding-left: 2.5rem;
+                    }
+                }
+            }
+
+            .form-actions {
+                margin-top: 1rem;
+
+                &.right {
+                    text-align: right;
+                }
+            }
+        }
+
+        /* Security Section */
+        .security-section {
+            .security-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 0;
+                border-bottom: 1px solid #f1f5f9;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .security-info {
+                    h3 {
+                        font-size: 1rem;
+                        margin: 0 0 0.3rem 0;
+                        color: #0f172a;
+                    }
+
+                    p {
+                        font-size: 0.85rem;
+                        color: #64748b;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        /* Danger Zone */
+        .danger-zone {
+            border: 1px solid #fee2e2;
+
+            .danger-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #fef2f2;
+                padding: 1rem;
+                border-radius: 8px;
+                border: 1px solid #fecaca;
+
+                .danger-info {
+                    h3 {
+                        font-size: 1rem;
+                        color: #991b1b;
+                        font-weight: 700;
+                        margin: 0 0 0.3rem 0;
+                    }
+
+                    .danger-text {
+                        color: #dc2626;
+                        font-size: 0.85rem;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}

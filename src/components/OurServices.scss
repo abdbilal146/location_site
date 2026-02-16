@@ -1,0 +1,82 @@
+.our-services {
+    padding: 5rem 5%;
+    background-color: #f9fafb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+
+    .services-header {
+        margin-bottom: 4rem;
+
+        h2 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+                border-color: #00b359;
+            }
+
+            .icon-wrapper {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #e6fcf5;
+                color: #00b359;
+                padding: 1rem;
+                border-radius: 8px;
+                margin-bottom: 1.5rem;
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+
+            h3 {
+                font-size: 1.25rem;
+                color: #111827;
+                margin-bottom: 0.75rem;
+                font-weight: 600;
+            }
+
+            p {
+                color: #4b5563;
+                line-height: 1.6;
+                font-size: 0.95rem;
+            }
+        }
+    }
+}

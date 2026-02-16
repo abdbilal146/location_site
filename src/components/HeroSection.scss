@@ -1,0 +1,162 @@
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 5% 4rem 5%;
+    background: linear-gradient(135deg, #e6fcf5 0%, #f0fff4 100%);
+    min-height: 80vh;
+    gap: 4rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+
+    @media (max-width: 968px) {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 5%;
+        gap: 3rem;
+    }
+
+    .hero-content {
+        flex: 1;
+        max-width: 600px;
+        z-index: 2;
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+
+            .highlight {
+                color: #00b359;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 2.5rem;
+            }
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+
+            @media (max-width: 968px) {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+
+            @media (max-width: 968px) {
+                justify-content: center;
+            }
+
+            .btn {
+                padding: 0.8rem 1.8rem;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                &-primary {
+                    background-color: #00b359;
+                    color: white;
+                    border: 2px solid #00b359;
+
+                    &:hover {
+                        background-color: #00994d;
+                        border-color: #00994d;
+                        transform: translateY(-2px);
+                    }
+                }
+
+                &-secondary {
+                    background-color: white;
+                    color: #00b359;
+                    border: 2px solid #00b359;
+
+                    &:hover {
+                        background-color: #f0fff4;
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            border-top: 1px solid rgba(0, 179, 89, 0.2);
+            padding-top: 2rem;
+
+            @media (max-width: 968px) {
+                justify-content: center;
+            }
+
+            .stat-item {
+                display: flex;
+                flex-direction: column;
+
+                .stat-value {
+                    font-size: 1.8rem;
+                    font-weight: 800;
+                    color: #00b359;
+                }
+
+                .stat-label {
+                    font-size: 0.9rem;
+                    color: #4a5568;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    .hero-image {
+        flex: 1;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .image-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 20px;
+                display: block;
+                object-fit: cover;
+                /* Create that "card" look slightly */
+                max-height: 600px;
+            }
+
+            /* Optional overlay for better integration if image is too bright */
+            .image-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent);
+                pointer-events: none;
+            }
+        }
+    }
+}
