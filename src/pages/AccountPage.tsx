@@ -1,12 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './AccountPage.scss';
 import AccountSidebar from '../components/AccountSidebar';
+import { getUserData, getUserId, supabase } from '../supabase/supabase';
+import { useNavigate } from '@tanstack/react-router';
+import type { User } from '@supabase/supabase-js';
 
 export default function AccountPage() {
+    const [userId, setUserId] = useState<string | undefined>()
+    const navigate = useNavigate()
+
+    const [data, setData] = useState<User | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const user = await getUserData();
+            setData(user!);
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const user_id = await getUserId();
+            setUserId(user_id)
+            console.log(user_id)
+        }
+        fetchUser()
+    }, [])
+
     const [formData, setFormData] = useState({
         firstName: 'Jean',
         lastName: 'Dupont',
-        email: 'jean.dupont@email.com',
+        email: '',
         phone: '+33 1 23 45 67 89',
         birthDate: '1990-05-15',
         address: '123 Avenue des Champs-Élysées',
@@ -22,6 +48,17 @@ export default function AccountPage() {
             [id]: value
         }));
     };
+
+    const deleteAccount = async () => {
+        const { error } = await supabase.auth.admin.deleteUser(userId!);
+
+        if (error) {
+            console.log(error)
+            return;
+        }
+
+        navigate({ to: '/' })
+    }
 
     return (
         <div className="account-page">
@@ -154,7 +191,7 @@ export default function AccountPage() {
                                 <h3>Supprimer le Compte</h3>
                                 <p className="danger-text">Cette action est irréversible</p>
                             </div>
-                            <button className="btn btn-danger">Supprimer</button>
+                            <button onClick={deleteAccount} className="btn btn-danger">Supprimer</button>
                         </div>
                     </div>
                 </main>

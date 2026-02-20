@@ -1,0 +1,110 @@
+.admin-sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background-color: #111827; // Dark blue/black as per image
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    &__brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        padding: 0 8px;
+
+        &-icon {
+            background-color: #10b981; // Green
+            padding: 6px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        &-text {
+            h2 {
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin: 0;
+            }
+
+            p {
+                font-size: 0.8rem;
+                color: #9ca3af;
+                margin: 0;
+            }
+        }
+    }
+
+    &__nav {
+        flex: 1;
+
+        &-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        &-item {
+            border-radius: 8px;
+
+            &.active {
+                background-color: #10b981;
+
+                .admin-sidebar__nav-link {
+                    color: white;
+                }
+            }
+
+            &:hover:not(.active) {
+                background-color: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        &-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+
+            span {
+                flex: 1;
+            }
+        }
+    }
+
+    &__footer {
+        margin-top: auto;
+        padding-top: 16px;
+    }
+
+    &__logout {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 16px;
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+    }
+}

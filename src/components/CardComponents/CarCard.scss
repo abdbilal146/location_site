@@ -1,0 +1,161 @@
+.car-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif; // Assuming Inter or similar sans-serif
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .car-card-image-container {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+
+        .car-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .car-card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: capitalize;
+
+            &.compacte {
+                background-color: #2ecc71;
+            }
+
+            &.berline {
+                background-color: #2ecc71;
+            }
+
+            // Green for all categories based on image except maybe special ones
+            &.suv {
+                background-color: #2ecc71;
+            }
+
+            &.sport {
+                background-color: #2ecc71;
+            }
+
+            // Adjusting colors if needed to match image exactly, but green seems dominant
+            background-color: #00b84a;
+        }
+
+        .car-card-wishlist {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.2s;
+
+            &:hover {
+                color: #e74c3c;
+            }
+        }
+    }
+
+    .car-card-content {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        .car-card-header {
+            margin-bottom: 12px;
+
+            .car-card-title {
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin: 0 0 4px 0;
+                color: #333;
+            }
+
+            .car-card-rating {
+                font-size: 0.875rem;
+                color: #f1c40f;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+
+                .car-card-reviews {
+                    color: #888;
+                }
+            }
+        }
+
+        .car-card-specs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            color: #666;
+            font-size: 0.8rem;
+
+            .spec-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+        }
+
+        .car-card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 12px;
+
+            .car-card-price {
+                .price-amount {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: #00b84a;
+                }
+
+                .price-period {
+                    font-size: 0.875rem;
+                    color: #888;
+                }
+            }
+
+            .car-card-button {
+                background-color: #00b84a;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: darken(#00b84a, 5%);
+                }
+            }
+        }
+    }
+}

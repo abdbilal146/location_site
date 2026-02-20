@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import './SignUpPage.scss';
-import { supabase } from '../supabase/supabase';
+import { getUserData, supabase } from '../supabase/supabase';
 import { useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createUser } from '../api/user';
 
 export default function SignUpPage() {
     const [formData, setFormData] = useState({
@@ -14,9 +16,23 @@ export default function SignUpPage() {
         termsAccepted: false
     });
 
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [userData, setUserData] = useState<any>()
     const navigate = useNavigate()
+
+
+    const mutation = useMutation({
+        mutationFn: createUser,
+        onSuccess: (data) => {
+            console.log("user created", data)
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    })
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value, type, checked } = e.target;
@@ -26,7 +42,13 @@ export default function SignUpPage() {
         }));
     };
 
-    const signUp = async (email: string, password: string) => {
+    const addUserInfo = (userInfo: { uid: string, name: string, familyName: string, email: string, phoneNumber: string }) => {
+        mutation.mutate({
+            ...userInfo
+        })
+    }
+
+    const signUp = async (email: string, password: string, name: string, familyName: string, phoneNumber: string) => {
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
@@ -34,13 +56,25 @@ export default function SignUpPage() {
 
         if (error) return
 
+        if (data) {
+            setUserData(data)
+        }
+
+        addUserInfo({ uid: data.user?.id!, name: name, familyName: familyName, email: email, phoneNumber: phoneNumber })
         navigate({ to: '/dashboard/account' })
     }
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Registering with', formData);
-        signUp(formData.email, formData.password)
+        signUp(
+            formData.email,
+            formData.password,
+            formData.firstName,
+            formData.lastName,
+            formData.phone
+        )
     };
 
     return (

@@ -1,0 +1,197 @@
+.clients-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8fafc;
+}
+
+.clients-content {
+    flex: 1;
+    margin-left: 260px;
+    /* Width of the sidebar */
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.clients-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    &__title-section {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+    }
+
+    &__subtitle {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin: 0;
+    }
+}
+
+.clients-controls {
+    margin-bottom: 24px;
+
+    .clients-search {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 10px 16px;
+        width: 320px;
+        gap: 12px;
+
+        input {
+            border: none;
+            outline: none;
+            font-size: 0.875rem;
+            width: 100%;
+            color: #1e293b;
+
+            &::placeholder {
+                color: #94a3b8;
+            }
+        }
+    }
+}
+
+.clients-table-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    overflow-x: auto;
+}
+
+.clients-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+
+    th {
+        text-align: left;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 16px 24px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    td {
+        padding: 16px 24px;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 0.875rem;
+        color: #475569;
+        vertical-align: middle;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    .client-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        .client-initials {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #d1fae5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .client-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+    }
+
+    .client-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+
+            svg {
+                color: #94a3b8;
+            }
+        }
+    }
+
+    .client-reservations {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .client-date {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #64748b;
+
+        svg {
+            color: #94a3b8;
+        }
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+
+        &.active {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+
+        &.inactive {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+    }
+
+    .action-dots-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #64748b;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background-color 0.2s, color 0.2s;
+
+        &:hover {
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+    }
+}

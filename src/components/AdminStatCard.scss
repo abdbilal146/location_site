@@ -1,0 +1,57 @@
+.admin-stat-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    &__icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__change {
+        font-size: 0.875rem;
+        font-weight: 600;
+
+        &.positive {
+            color: #10b981; // Green
+        }
+
+        &.negative {
+            color: #ef4444; // Red
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__title {
+        font-size: 0.875rem;
+        color: #64748b;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    &__value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+}

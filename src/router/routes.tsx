@@ -7,6 +7,13 @@ import MyRentalsPage from "../pages/MyRentalsPage";
 import AccountParameterPage from "../pages/AccountParametersPage";
 import PaymentPage from "../pages/PaymentPage";
 import WishlistPage from "../pages/WishlistPage";
+import CarListPage from "../pages/CarListPage";
+import AdminPanel from "../pages/AdminPanel";
+import Vehicules from "../pages/Vehicules";
+import Clients from "../pages/Clients";
+import Reservation from "../pages/Reservation";
+import AdminParameter from "../pages/AdminParameter";
+
 
 export const rootRoute = createRootRoute({
     component: () => <Outlet />
@@ -60,6 +67,42 @@ export const wishlistRoute = createRoute({
     component: WishlistPage
 })
 
+export const carsRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/cars',
+    component: CarListPage
+})
+
+export const adminPanelRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/admin-panel',
+    component: AdminPanel
+})
+
+export const vehiculesRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/admin-panel/vehicules',
+    component: Vehicules
+})
+
+export const clientsRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/admin-panel/clients',
+    component: Clients
+})
+
+export const reservationsRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/admin-panel/reservations',
+    component: Reservation
+})
+
+export const parametresRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/admin-panel/parametres',
+    component: AdminParameter
+})
+
 export const routeTree = rootRoute.addChildren([
     homeRoute,
     loginRoute,
@@ -68,5 +111,11 @@ export const routeTree = rootRoute.addChildren([
     myRentalRoute,
     settingsRoute,
     paymentRoute,
-    wishlistRoute
+    wishlistRoute,
+    carsRoute,
+    adminPanelRoute,
+    vehiculesRoute,
+    clientsRoute,
+    reservationsRoute,
+    parametresRoute
 ])
