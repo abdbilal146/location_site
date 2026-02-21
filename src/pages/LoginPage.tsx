@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './LoginPage.scss';
 import { useNavigate } from '@tanstack/react-router';
 import { supabase } from '../supabase/supabase';
+import { getUserRole } from '../api/user';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -19,7 +20,15 @@ export default function LoginPage() {
 
         if (error) return
 
-        navigate({ to: '/dashboard/account' })
+
+        const userRole = await getUserRole();
+        if (userRole.toLowerCase() === "user") {
+            navigate({ to: '/dashboard/account' })
+        }
+
+        if (userRole.toLowerCase() === "admin") {
+            navigate({ to: '/admin-panel' })
+        }
     }
 
     const handleSubmit = (e: React.FormEvent) => {

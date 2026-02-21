@@ -3,7 +3,7 @@ import './SignUpPage.scss';
 import { getUserData, supabase } from '../supabase/supabase';
 import { useNavigate } from '@tanstack/react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createUser } from '../api/user';
+import { createUser, getUserRole } from '../api/user';
 
 export default function SignUpPage() {
     const [formData, setFormData] = useState({
@@ -42,7 +42,7 @@ export default function SignUpPage() {
         }));
     };
 
-    const addUserInfo = (userInfo: { uid: string, name: string, familyName: string, email: string, phoneNumber: string }) => {
+    const addUserInfo = (userInfo: { name: string, familyName: string, phoneNumber: string }) => {
         mutation.mutate({
             ...userInfo
         })
@@ -60,8 +60,17 @@ export default function SignUpPage() {
             setUserData(data)
         }
 
-        addUserInfo({ uid: data.user?.id!, name: name, familyName: familyName, email: email, phoneNumber: phoneNumber })
-        navigate({ to: '/dashboard/account' })
+        addUserInfo({ name: name, familyName: familyName, phoneNumber: phoneNumber });
+        const userRole: string = await getUserRole();
+        if (userRole.toLowerCase() === "user") {
+            navigate({ to: '/dashboard/account' })
+        }
+
+        if (userRole.toLowerCase() === "admin") {
+            navigate({ to: '/admin-panel' })
+        }
+
+
     }
 
 

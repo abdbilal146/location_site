@@ -1,5 +1,6 @@
-
+import { useState } from 'react';
 import AdminSidebar from '../components/AdminSidebar';
+import AddVehicleModal from '../components/AddVehicleModal';
 import { IconSearch, IconPencil, IconTrash, IconPlus } from '@tabler/icons-react';
 import './Vehicules.scss';
 
@@ -52,6 +53,8 @@ const mockVehicles: Vehicle[] = [
 ];
 
 export default function Vehicules() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <div className="vehicules-wrapper">
             <AdminSidebar activeTab="vehicules" />
@@ -61,7 +64,7 @@ export default function Vehicules() {
                         <h1 className="vehicles-header__title">Gestion des Véhicules</h1>
                         <p className="vehicles-header__subtitle">3 véhicules au total</p>
                     </div>
-                    <button className="vehicles-header__add-button">
+                    <button className="vehicles-header__add-button" onClick={() => setIsModalOpen(true)}>
                         <IconPlus size={18} />
                         <span>Ajouter un Véhicule</span>
                     </button>
@@ -122,6 +125,8 @@ export default function Vehicules() {
                         </tbody>
                     </table>
                 </div>
+
+                <AddVehicleModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
             </main>
         </div>
     );
