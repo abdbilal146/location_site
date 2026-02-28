@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .car-card {
     background: #fff;
     border-radius: 16px;
@@ -153,7 +155,7 @@
                 transition: background-color 0.2s;
 
                 &:hover {
-                    background-color: darken(#00b84a, 5%);
+                    background-color: color.adjust(#00b84a, $lightness: -5%);
                 }
             }
         }
