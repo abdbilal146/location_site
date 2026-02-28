@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './SignUpPage.scss';
-import { getUserData, supabase } from '../supabase/supabase';
+import { supabase } from '../supabase/supabase';
 import { useNavigate } from '@tanstack/react-router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { createUser, getUserRole } from '../api/user';
 
 export default function SignUpPage() {
@@ -19,7 +19,7 @@ export default function SignUpPage() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [userData, setUserData] = useState<any>()
+    /* const [userData, setUserData] = useState<any>() */
     const navigate = useNavigate()
 
 
@@ -49,16 +49,16 @@ export default function SignUpPage() {
     }
 
     const signUp = async (email: string, password: string, name: string, familyName: string, phoneNumber: string) => {
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
             email: email,
             password: password,
         })
 
         if (error) return
 
-        if (data) {
-            setUserData(data)
-        }
+        /*  if (data) {
+             setUserData(data)
+         } */
 
         addUserInfo({ name: name, familyName: familyName, phoneNumber: phoneNumber });
         const userRole: string = await getUserRole();

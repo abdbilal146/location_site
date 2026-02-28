@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
 import './AccountPage.scss';
 import AccountSidebar from '../components/AccountSidebar';
-import { getUserData, getUserId, supabase } from '../supabase/supabase';
+import { getUserId, supabase } from '../supabase/supabase';
 import { useNavigate } from '@tanstack/react-router';
-import type { User } from '@supabase/supabase-js';
+
 
 export default function AccountPage() {
     const [userId, setUserId] = useState<string | undefined>()
     const navigate = useNavigate()
 
-    const [data, setData] = useState<User | null>(null);
+    /* const [data, setData] = useState<User | null>(null); */
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const user = await getUserData();
-            setData(user!);
-        };
-
-        fetchData();
-    }, []);
+    /*  useEffect(() => {
+         const fetchData = async () => {
+             const user = await getUserData();
+             setData(user!);
+         };
+ 
+         fetchData();
+     }, []); */
 
     useEffect(() => {
         const fetchUser = async () => {
