@@ -1,0 +1,75 @@
+.terms-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f7FA;
+    padding: 2rem;
+    font-family: inherit;
+
+    .terms-container {
+        background: white;
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        max-width: 800px;
+        width: 100%;
+
+        .terms-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+
+            h1 {
+                font-size: 2rem;
+                color: #2c3e50;
+                margin-bottom: 0.5rem;
+            }
+
+            p {
+                color: #7f8c8d;
+                font-size: 0.9rem;
+            }
+        }
+
+        .terms-content {
+            color: #34495e;
+            line-height: 1.6;
+
+            section {
+                margin-bottom: 2rem;
+
+                h2 {
+                    font-size: 1.3rem;
+                    color: #2c3e50;
+                    margin-bottom: 1rem;
+                }
+
+                p {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+
+        .terms-footer {
+            margin-top: 3rem;
+            text-align: center;
+
+            .back-btn {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                background-color: #1ed760; /* Using Spotify green-like color or fallback to black */
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: 500;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: #1db954; /* slightly darker green */
+                }
+            }
+        }
+    }
+}
