@@ -5,6 +5,16 @@ import { useNavigate, Link } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
 import { createUser, getUserRole } from '../api/user';
 
+interface FormErrors {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    password?: string;
+    confirmPassword?: string;
+    termsAccepted?: string;
+}
+
 export default function SignUpPage() {
     const [formData, setFormData] = useState({
         firstName: '',
@@ -16,6 +26,7 @@ export default function SignUpPage() {
         termsAccepted: false
     });
 
+    const [errors, setErrors] = useState<FormErrors>({});
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -40,6 +51,62 @@ export default function SignUpPage() {
             ...prev,
             [id]: type === 'checkbox' ? checked : value
         }));
+
+        if (errors[id as keyof FormErrors]) {
+            setErrors(prev => ({ ...prev, [id]: undefined }));
+        }
+    };
+
+    const validateForm = (): boolean => {
+        const newErrors: FormErrors = {};
+        let isValid = true;
+
+        if (!formData.firstName.trim()) {
+            newErrors.firstName = "Ce champ est obligatoire";
+            isValid = false;
+        }
+
+        if (!formData.lastName.trim()) {
+            newErrors.lastName = "Ce champ est obligatoire";
+            isValid = false;
+        }
+
+        if (!formData.email.trim()) {
+            newErrors.email = "Ce champ est obligatoire";
+            isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Format d'email invalide";
+            isValid = false;
+        }
+
+        if (!formData.phone.trim()) {
+            newErrors.phone = "Ce champ est obligatoire";
+            isValid = false;
+        }
+
+        if (!formData.password) {
+            newErrors.password = "Ce champ est obligatoire";
+            isValid = false;
+        } else if (formData.password.length < 8) {
+            newErrors.password = "Le mot de passe doit contenir au moins 8 caractères";
+            isValid = false;
+        }
+
+        if (!formData.confirmPassword) {
+            newErrors.confirmPassword = "Ce champ est obligatoire";
+            isValid = false;
+        } else if (formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
+            isValid = false;
+        }
+
+        if (!formData.termsAccepted) {
+            newErrors.termsAccepted = "Vous devez accepter les conditions";
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
     };
 
     const addUserInfo = (userInfo: { name: string, familyName: string, phoneNumber: string }) => {
@@ -76,6 +143,11 @@ export default function SignUpPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
         console.log('Registering with', formData);
         signUp(
             formData.email,
@@ -105,7 +177,7 @@ export default function SignUpPage() {
                     <p>Rejoignez-nous pour louer votre véhicule idéal</p>
                 </div>
 
-                <form className="signup-form" onSubmit={handleSubmit}>
+                <form className="signup-form" onSubmit={handleSubmit} noValidate>
                     <div className="form-row">
                         <div className="form-group">
                             <label htmlFor="firstName">Prénom</label>
@@ -119,9 +191,11 @@ export default function SignUpPage() {
                                     placeholder="Jean"
                                     value={formData.firstName}
                                     onChange={handleChange}
+                                    className={errors.firstName ? 'error-input' : ''}
                                     required
                                 />
                             </div>
+                            {errors.firstName && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.firstName}</span>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="lastName">Nom</label>
@@ -136,10 +210,12 @@ export default function SignUpPage() {
                                     placeholder="Dupont"
                                     value={formData.lastName}
                                     onChange={handleChange}
+                                    className={errors.lastName ? 'error-input' : ''}
                                     required
                                     style={{ paddingLeft: '1rem' }} /* Override padding if no icon */
                                 />
                             </div>
+                            {errors.lastName && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.lastName}</span>}
                         </div>
                     </div>
 
@@ -155,9 +231,11 @@ export default function SignUpPage() {
                                 placeholder="votre.email@exemple.com"
                                 value={formData.email}
                                 onChange={handleChange}
+                                className={errors.email ? 'error-input' : ''}
                                 required
                             />
                         </div>
+                        {errors.email && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.email}</span>}
                     </div>
 
                     <div className="form-group">
@@ -172,8 +250,10 @@ export default function SignUpPage() {
                                 placeholder="+33 1 23 45 67 89"
                                 value={formData.phone}
                                 onChange={handleChange}
+                                className={errors.phone ? 'error-input' : ''}
                             />
                         </div>
+                        {errors.phone && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.phone}</span>}
                     </div>
 
                     <div className="form-group">
@@ -188,6 +268,7 @@ export default function SignUpPage() {
                                 placeholder="........"
                                 value={formData.password}
                                 onChange={handleChange}
+                                className={errors.password ? 'error-input' : ''}
                                 required
                             />
                             <button
@@ -202,7 +283,23 @@ export default function SignUpPage() {
                                 )}
                             </button>
                         </div>
-                        <span className="helper-text">Minimum 8 caractères</span>
+                        <div className="password-criteria" style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            marginTop: '8px',
+                            fontSize: '0.8rem',
+                            color: formData.password.length >= 8 ? '#10b981' : '#94a3b8',
+                            transition: 'color 0.2s'
+                        }}>
+                            {formData.password.length >= 8 ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            )}
+                            <span>Minimum 8 caractères</span>
+                        </div>
+                        {errors.password && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.password}</span>}
                     </div>
 
                     <div className="form-group">
@@ -217,6 +314,7 @@ export default function SignUpPage() {
                                 placeholder="........"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
+                                className={errors.confirmPassword ? 'error-input' : ''}
                                 required
                             />
                             <button
@@ -231,6 +329,7 @@ export default function SignUpPage() {
                                 )}
                             </button>
                         </div>
+                        {errors.confirmPassword && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.confirmPassword}</span>}
                     </div>
 
                     <div className="form-group terms-group">
@@ -240,12 +339,14 @@ export default function SignUpPage() {
                                 id="termsAccepted"
                                 checked={formData.termsAccepted}
                                 onChange={handleChange}
+                                className={errors.termsAccepted ? 'error-input' : ''}
                                 required
                             />
                             <span>
                                 J'accepte les <Link to="/terms-of-use">conditions générales d'utilisation</Link> et la <Link to="/privacy-policy">politique de confidentialité</Link>
                             </span>
                         </label>
+                        {errors.termsAccepted && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.termsAccepted}</span>}
                     </div>
 
                     <button type="submit" className="signup-btn">Créer mon Compte</button>
