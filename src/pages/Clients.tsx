@@ -93,7 +93,7 @@ export default function Clients() {
                                         </div>
                                     </td>
                                     <td>
-                                        <span className="client-reservations">{client.reservations.length}</span>
+                                        <span className="client-reservations">{client.reservations?.length}</span>
                                     </td>
                                     <td>
                                         <div className="client-date">
