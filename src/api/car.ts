@@ -2,9 +2,8 @@ import axios from "axios"
 import { supabase } from "../supabase/supabase";
 
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
-const CAR_API_URL: string = "http://localhost:8080/api/admin/cars/add"
-const CARS_API_URL: string = "http://localhost:8080/api/admin/cars"
 
 
 export const addNewCar = async (newCar: {
@@ -29,7 +28,7 @@ export const addNewCar = async (newCar: {
 
 
     const { data } = await axios.post(
-        CAR_API_URL,
+        `${BASE_URL}/api/admin/cars/add`,
         newCar,
         {
             headers: {
@@ -55,7 +54,7 @@ export const getAllCars = async () => {
 
 
     const { data } = await axios.get(
-        CARS_API_URL,
+        `${BASE_URL}/api/admin/cars`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -79,7 +78,7 @@ export const deleteCarById = async (id: number) => {
     }
 
     const { data } = await axios.delete(
-        `${CARS_API_URL}/${id}`
+        `${BASE_URL}/api/admin/cars/${id}`
     )
 
     return data;
