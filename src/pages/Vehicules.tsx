@@ -3,57 +3,30 @@ import AdminSidebar from '../components/AdminSidebar';
 import AddVehicleModal from '../components/AddVehicleModal';
 import { IconSearch, IconPencil, IconTrash, IconPlus } from '@tabler/icons-react';
 import './Vehicules.scss';
+import { useQuery } from '@tanstack/react-query';
+import { getAllCars } from '../api/car';
 
-interface Vehicle {
-    id: string;
-    name: string;
-    category: string;
-    price: string;
-    transmission: string;
-    fuel: string;
-    seats: number;
-    status: string;
-    image: string;
-}
 
-const mockVehicles: Vehicle[] = [
-    {
-        id: '1',
-        name: 'BMW Serie 5',
-        category: 'Berline',
-        price: '€95',
-        transmission: 'Automatique',
-        fuel: 'Essence',
-        seats: 5,
-        status: 'Disponible',
-        image: 'https://images.unsplash.com/photo-1555215695-30049a4b868a?auto=format&fit=crop&q=80&w=200'
-    },
-    {
-        id: '2',
-        name: 'Mercedes-Benz Classe C',
-        category: 'Sport',
-        price: '€120',
-        transmission: 'Automatique',
-        fuel: 'Essence',
-        seats: 4,
-        status: 'Disponible',
-        image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=200'
-    },
-    {
-        id: '3',
-        name: 'Audi Q5',
-        category: 'SUV',
-        price: '€85',
-        transmission: 'Automatique',
-        fuel: 'Diesel',
-        seats: 7,
-        status: 'Disponible',
-        image: 'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&q=80&w=200'
-    }
-];
 
 export default function Vehicules() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedCar, setSelectedCar] = useState<any>(null);
+
+    const { error, data, isLoading } = useQuery({
+        queryKey: ["cars"],
+        queryFn: getAllCars
+    })
+
+
+    if (isLoading) return <>Is Loading...</>;
+
+    if (error) return <>Is Error...</>;
+
+    if (data) {
+        console.log("data is ", data)
+    }
+
+
 
     return (
         <div className="vehicules-wrapper">
@@ -64,7 +37,7 @@ export default function Vehicules() {
                         <h1 className="vehicles-header__title">Gestion des Véhicules</h1>
                         <p className="vehicles-header__subtitle">3 véhicules au total</p>
                     </div>
-                    <button className="vehicles-header__add-button" onClick={() => setIsModalOpen(true)}>
+                    <button className="vehicles-header__add-button" onClick={() => { setSelectedCar(null); setIsModalOpen(true); }}>
                         <IconPlus size={18} />
                         <span>Ajouter un Véhicule</span>
                     </button>
@@ -92,19 +65,19 @@ export default function Vehicules() {
                             </tr>
                         </thead>
                         <tbody>
-                            {mockVehicles.map((veh) => (
+                            {data.map((veh: any) => (
                                 <tr key={veh.id}>
                                     <td>
                                         <div className="vehicle-info">
-                                            <img src={veh.image} alt={veh.name} className="vehicle-image" />
-                                            <span className="vehicle-name">{veh.name}</span>
+                                            <img src={veh.imageUrl} alt={veh.model} className="vehicle-image" />
+                                            <span className="vehicle-name">{veh.model}</span>
                                         </div>
                                     </td>
                                     <td>{veh.category}</td>
-                                    <td className="vehicle-price"><strong>{veh.price}</strong></td>
+                                    <td className="vehicle-price"><strong>{veh.rentPrice}</strong></td>
                                     <td>{veh.transmission}</td>
                                     <td>{veh.fuel}</td>
-                                    <td>{veh.seats}</td>
+                                    <td>{veh.numberOfSeats}</td>
                                     <td>
                                         <span className="status-badge available">
                                             {veh.status}
@@ -112,7 +85,7 @@ export default function Vehicules() {
                                     </td>
                                     <td>
                                         <div className="vehicle-actions">
-                                            <button className="action-btn edit-btn">
+                                            <button className="action-btn edit-btn" onClick={() => { setSelectedCar(veh); setIsModalOpen(true); }}>
                                                 <IconPencil size={18} />
                                             </button>
                                             <button className="action-btn delete-btn">
@@ -126,7 +99,11 @@ export default function Vehicules() {
                     </table>
                 </div>
 
-                <AddVehicleModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                <AddVehicleModal
+                    isOpen={isModalOpen}
+                    onClose={() => { setIsModalOpen(false); setSelectedCar(null); }}
+                    initialData={selectedCar}
+                />
             </main>
         </div>
     );

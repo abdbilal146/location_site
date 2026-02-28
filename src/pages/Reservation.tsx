@@ -1,6 +1,7 @@
-
+import { useState } from 'react';
 import AdminSidebar from '../components/AdminSidebar';
-import { IconSearch, IconFilter, IconCalendarEvent } from '@tabler/icons-react';
+import { IconSearch, IconFilter, IconCalendarEvent, IconPlus } from '@tabler/icons-react';
+import AddReservationModal from '../components/AddReservationModal';
 import './Reservation.scss';
 
 interface Reservation {
@@ -24,6 +25,8 @@ const mockReservations: Reservation[] = [
 ];
 
 export default function Reservation() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <div className="reservations-wrapper">
             <AdminSidebar activeTab="reservations" />
@@ -33,6 +36,10 @@ export default function Reservation() {
                         <h1 className="reservations-header__title">Réservations</h1>
                         <p className="reservations-header__subtitle">6 réservations au total</p>
                     </div>
+                    <button className="reservations-header__add-button" onClick={() => setIsModalOpen(true)}>
+                        <IconPlus size={18} />
+                        <span>Nouvelle Réservation</span>
+                    </button>
                 </header>
 
                 <div className="reservations-controls">
@@ -96,6 +103,8 @@ export default function Reservation() {
                         </tbody>
                     </table>
                 </div>
+
+                <AddReservationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
             </main>
         </div>
     );

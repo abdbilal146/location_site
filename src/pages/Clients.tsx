@@ -1,7 +1,11 @@
-
+import { useState } from 'react';
 import AdminSidebar from '../components/AdminSidebar';
-import { IconSearch, IconMail, IconPhone, IconCalendarEvent, IconDotsVertical } from '@tabler/icons-react';
+import { IconSearch, IconMail, IconPhone, IconCalendarEvent, IconPlus } from '@tabler/icons-react';
+import AddClientModal from '../components/AddClientModal';
+import ActionDropdown from '../components/ActionDropdown';
 import './Clients.scss';
+import { useQuery } from '@tanstack/react-query';
+import { getAllClients } from '../api/client';
 
 interface Client {
     id: string;
@@ -16,13 +20,23 @@ interface Client {
 
 const mockClients: Client[] = [
     { id: '1', initials: 'MD', name: 'Marie Dubois', email: 'marie.dubois@email.com', phone: '+33 6 12 34 56 78', reservations: 12, date: '2025-08-15', status: 'Active' },
-    { id: '2', initials: 'JM', name: 'Jean Martin', email: 'jean.martin@email.com', phone: '+33 6 23 45 67 89', reservations: 8, date: '2025-10-20', status: 'Active' },
-    { id: '3', initials: 'SB', name: 'Sophie Bernard', email: 'sophie.bernard@email.com', phone: '+33 6 34 56 78 90', reservations: 15, date: '2025-06-10', status: 'Active' },
-    { id: '4', initials: 'PP', name: 'Pierre Petit', email: 'pierre.petit@email.com', phone: '+33 6 45 67 89 01', reservations: 5, date: '2025-12-05', status: 'Inactive' },
-    { id: '5', initials: 'CD', name: 'Claire Dupont', email: 'claire.dupont@email.com', phone: '+33 6 56 78 90 12', reservations: 20, date: '2025-03-22', status: 'Active' }
-];
+]
 
 export default function Clients() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['clients'],
+        queryFn: getAllClients
+    })
+
+
+    if (isLoading) return <>Is Loading ....</>
+    if (error) return <>Error...{error}</>
+
+    console.log("clients are ", data)
+
     return (
         <div className="clients-wrapper">
             <AdminSidebar activeTab="clients" />
@@ -30,8 +44,12 @@ export default function Clients() {
                 <header className="clients-header">
                     <div className="clients-header__title-section">
                         <h1 className="clients-header__title">Clients</h1>
-                        <p className="clients-header__subtitle">5 clients enregistrés</p>
+                        <p className="clients-header__subtitle">{data.length}</p>
                     </div>
+                    <button className="clients-header__add-button" onClick={() => setIsModalOpen(true)}>
+                        <IconPlus size={18} />
+                        <span>Ajouter un Client</span>
+                    </button>
                 </header>
 
                 <div className="clients-controls">
@@ -54,12 +72,12 @@ export default function Clients() {
                             </tr>
                         </thead>
                         <tbody>
-                            {mockClients.map((client) => (
+                            {data.map((client: any) => (
                                 <tr key={client.id}>
                                     <td>
                                         <div className="client-info">
-                                            <div className="client-initials">{client.initials}</div>
-                                            <span className="client-name">{client.name}</span>
+                                            <div className="client-initials">{"CD"}</div>
+                                            <span className="client-name">{client.fullName}</span>
                                         </div>
                                     </td>
                                     <td>
@@ -70,34 +88,38 @@ export default function Clients() {
                                             </div>
                                             <div className="contact-item">
                                                 <IconPhone size={16} />
-                                                <span>{client.phone}</span>
+                                                <span>{client.phoneNumber}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <span className="client-reservations">{client.reservations}</span>
+                                        <span className="client-reservations">{client.reservations.length}</span>
                                     </td>
                                     <td>
                                         <div className="client-date">
                                             <IconCalendarEvent size={16} />
-                                            <span>{client.date}</span>
+                                            <span>{client.createdAt}</span>
                                         </div>
                                     </td>
                                     <td>
-                                        <span className={`status-badge ${client.status.toLowerCase()}`}>
-                                            {client.status}
+                                        <span className={`status-badge ${client.accountStatus ? "Active" : "Inactive"}`}>
+                                            {client.accountStatus ? "Active" : "Inactive"}
                                         </span>
                                     </td>
                                     <td>
-                                        <button className="action-dots-btn">
-                                            <IconDotsVertical size={18} />
-                                        </button>
+                                        <ActionDropdown
+                                            onView={() => console.log('View client', client.id)}
+                                            onEdit={() => console.log('Edit client', client.id)}
+                                            onDelete={() => console.log('Delete client', client.id)}
+                                        />
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
+
+                <AddClientModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
             </main>
         </div>
     );

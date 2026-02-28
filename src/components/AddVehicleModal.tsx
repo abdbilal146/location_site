@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IconX, IconUpload, IconDeviceFloppy } from '@tabler/icons-react';
 import './AddVehicleModal.scss';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addNewCar } from '../api/car';
 
 interface AddVehicleModalProps {
     isOpen: boolean;
     onClose: () => void;
+    initialData?: any;
 }
 
-const AddVehicleModal: React.FC<AddVehicleModalProps> = ({ isOpen, onClose }) => {
+const AddVehicleModal: React.FC<AddVehicleModalProps> = ({ isOpen, onClose, initialData }) => {
+    const queryClient = useQueryClient();
+
     const [formData, setFormData] = useState({
         name: '',
         image: '',
@@ -18,14 +21,42 @@ const AddVehicleModal: React.FC<AddVehicleModalProps> = ({ isOpen, onClose }) =>
         transmission: 'Automatique',
         fuel: 'Essence',
         seats: 5,
-        available: true
+        available: false
     });
+
+    useEffect(() => {
+        if (initialData && isOpen) {
+            setFormData({
+                name: initialData.model || '',
+                image: initialData.imageUrl || '',
+                category: initialData.category || 'Berline',
+                price: initialData.rentPrice || '',
+                transmission: initialData.transmission || 'Automatique',
+                fuel: initialData.fuel || 'Essence',
+                seats: initialData.numberOfSeats || 5,
+                available: initialData.status ?? false
+            });
+        } else if (!isOpen) {
+            // Reset form when closed
+            setFormData({
+                name: '',
+                image: '',
+                category: 'Berline',
+                price: "",
+                transmission: 'Automatique',
+                fuel: 'Essence',
+                seats: 5,
+                available: false
+            });
+        }
+    }, [initialData, isOpen]);
 
 
     const mutation = useMutation({
         mutationFn: addNewCar,
         onSuccess: (data) => {
             console.log('succed', data)
+            queryClient.invalidateQueries({ queryKey: ["cars"] });
             onClose();
         },
         onError: (error) => {
@@ -33,7 +64,18 @@ const AddVehicleModal: React.FC<AddVehicleModalProps> = ({ isOpen, onClose }) =>
         }
     })
 
-    const createNewCar = (newCar: { imageUrl: string, registrationNumber: string, brand: string, model: string, transmission: string, fuel: string, numberOfSeats: number, rentPrice: string }) => {
+    const createNewCar = (newCar: {
+        imageUrl: string,
+        registrationNumber: string,
+        brand: string,
+        model: string,
+        transmission: string,
+        fuel: string,
+        numberOfSeats: number,
+        rentPrice: string,
+        category: string,
+        status: boolean
+    }) => {
         mutation.mutate({
             ...newCar
         })
@@ -60,7 +102,9 @@ const AddVehicleModal: React.FC<AddVehicleModalProps> = ({ isOpen, onClose }) =>
                 transmission: formData.transmission,
                 fuel: formData.fuel,
                 numberOfSeats: formData.seats,
-                rentPrice: formData.price
+                rentPrice: formData.price,
+                category: formData.category,
+                status: formData.available
             }
         )
     }
@@ -72,7 +116,7 @@ const AddVehicleModal: React.FC<AddVehicleModalProps> = ({ isOpen, onClose }) =>
         <div className="modal-overlay">
             <div className="add-vehicle-modal">
                 <header className="modal-header">
-                    <h2>Ajouter un Véhicule</h2>
+                    <h2>{initialData ? "Modifier un Véhicule" : "Ajouter un Véhicule"}</h2>
                     <button className="close-btn" onClick={onClose}>
                         <IconX size={20} />
                     </button>
@@ -146,7 +190,7 @@ const AddVehicleModal: React.FC<AddVehicleModalProps> = ({ isOpen, onClose }) =>
                             ) : (
                                 <IconDeviceFloppy size={18} />
                             )}
-                            {mutation.isPending ? 'Ajout en cours...' : 'Ajouter'}
+                            {mutation.isPending ? 'Chargement...' : (initialData ? 'Modifier' : 'Ajouter')}
                         </button>
                     </footer>
                 </form>
