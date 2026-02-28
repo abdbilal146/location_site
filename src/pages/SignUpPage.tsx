@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './SignUpPage.scss';
 import { supabase } from '../supabase/supabase';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, Link } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
 import { createUser, getUserRole } from '../api/user';
 
@@ -243,7 +243,7 @@ export default function SignUpPage() {
                                 required
                             />
                             <span>
-                                J'accepte les <a href="#">conditions générales d'utilisation</a> et la <a href="#">politique de confidentialité</a>
+                                J'accepte les <Link to="/terms-of-use">conditions générales d'utilisation</Link> et la <Link to="/privacy-policy">politique de confidentialité</Link>
                             </span>
                         </label>
                     </div>

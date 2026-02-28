@@ -13,6 +13,8 @@ import Vehicules from "../pages/Vehicules";
 import Clients from "../pages/Clients";
 import Reservation from "../pages/Reservation";
 import AdminParameter from "../pages/AdminParameter";
+import TermsOfUsePage from "../pages/TermsOfUsePage";
+import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
 
 
 export const rootRoute = createRootRoute({
@@ -103,6 +105,18 @@ export const parametresRoute = createRoute({
     component: AdminParameter
 })
 
+export const termsRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/terms-of-use',
+    component: TermsOfUsePage
+})
+
+export const privacyRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/privacy-policy',
+    component: PrivacyPolicyPage
+})
+
 export const routeTree = rootRoute.addChildren([
     homeRoute,
     loginRoute,
@@ -117,5 +131,7 @@ export const routeTree = rootRoute.addChildren([
     vehiculesRoute,
     clientsRoute,
     reservationsRoute,
-    parametresRoute
+    parametresRoute,
+    termsRoute,
+    privacyRoute
 ])
