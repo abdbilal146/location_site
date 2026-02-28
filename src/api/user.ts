@@ -2,8 +2,7 @@ import axios from "axios";
 import { supabase } from "../supabase/supabase";
 
 
-const USER_API_URL: string = 'http://localhost:8080/api/user';
-const USER_API_ROLE_URL: string = 'http://localhost:8080/api/user/role'
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const createUser = async (newUser: {
     name: string,
@@ -20,7 +19,7 @@ export const createUser = async (newUser: {
 
     // Envoyer le token dans Authorization header
     const { data } = await axios.post(
-        USER_API_URL,
+        `${BASE_URL}api/user`,
         newUser,
         {
             headers: {
@@ -42,7 +41,7 @@ export const getUserRole = async () => {
     }
 
     const { data } = await axios.post(
-        USER_API_ROLE_URL,
+        `${BASE_URL}api/user/role`,
         "",
         {
             headers: {

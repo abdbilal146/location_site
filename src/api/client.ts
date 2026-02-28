@@ -2,9 +2,7 @@ import axios from "axios";
 import { supabase } from "../supabase/supabase";
 
 
-const CLIENT_API_URL: string = "http://localhost:8080/api/admin/client/add"
-const CLIENTS_API_URL: string = "http://localhost:8080/api/admin/client"
-
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 
 export const addNewClient = async (newClient: {
@@ -28,7 +26,7 @@ export const addNewClient = async (newClient: {
 
 
     const { data } = await axios.post(
-        CLIENT_API_URL,
+        `${BASE_URL}api/admin/client/add`,
         newClient,
         {
             headers: {
@@ -52,7 +50,7 @@ export const getAllClients = async () => {
 
 
     const { data } = await axios.get(
-        CLIENTS_API_URL,
+        `${BASE_URL}api/admin/client`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
