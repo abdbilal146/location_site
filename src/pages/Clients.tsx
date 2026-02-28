@@ -7,7 +7,7 @@ import './Clients.scss';
 import { useQuery } from '@tanstack/react-query';
 import { getAllClients } from '../api/client';
 
-interface Client {
+/* interface Client {
     id: string;
     initials: string;
     name: string;
@@ -16,12 +16,12 @@ interface Client {
     reservations: number;
     date: string;
     status: 'Active' | 'Inactive';
-}
+} */
 
-const mockClients: Client[] = [
+/* const mockClients: Client[] = [
     { id: '1', initials: 'MD', name: 'Marie Dubois', email: 'marie.dubois@email.com', phone: '+33 6 12 34 56 78', reservations: 12, date: '2025-08-15', status: 'Active' },
 ]
-
+ */
 export default function Clients() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
