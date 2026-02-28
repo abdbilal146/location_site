@@ -8,20 +8,28 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
+    const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
 
 
 
     const signIn = async (email: string, password: string) => {
+        setIsLoading(true);
         const { error } = await supabase.auth.signInWithPassword({
             email: email,
             password: password
         })
 
-        if (error) return
-
+        if (error) {
+            setIsLoading(false);
+            setErrors({ general: "Identifiants incorrects" });
+            return;
+        }
 
         const userRole = await getUserRole();
+        setIsLoading(false);
         if (userRole.toLowerCase() === "user") {
             navigate({ to: '/dashboard/account' })
         }
@@ -31,11 +39,31 @@ export default function LoginPage() {
         }
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Logic for login would go here
+        setErrors({});
+
+        const newErrors: { email?: string; password?: string; general?: string } = {};
+        let isValid = true;
+
+        if (!email.trim()) {
+            newErrors.email = "L'adresse email est obligatoire";
+            isValid = false;
+        }
+
+        if (!password) {
+            newErrors.password = "Le mot de passe est obligatoire";
+            isValid = false;
+        }
+
+        if (!isValid) {
+            setErrors(newErrors);
+            return;
+        }
+
         console.log('Logging in with', email, password);
-        signIn(email, password)
+        window.localStorage.setItem('rememberMe', String(rememberMe));
+        await signIn(email, password)
     };
 
     return (
@@ -57,7 +85,12 @@ export default function LoginPage() {
                     <p>Accédez à votre compte pour réserver un véhicule</p>
                 </div>
 
-                <form className="login-form" onSubmit={handleSubmit}>
+                <form className="login-form" onSubmit={handleSubmit} noValidate>
+                    {errors.general && (
+                        <div className="general-error" style={{ backgroundColor: '#fff5f5', color: '#e53e3e', padding: '10px', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.9rem', textAlign: 'center', border: '1px solid #fed7d7' }}>
+                            {errors.general}
+                        </div>
+                    )}
                     <div className="form-group">
                         <label htmlFor="email">Adresse Email</label>
                         <div className="input-wrapper">
@@ -69,10 +102,15 @@ export default function LoginPage() {
                                 id="email"
                                 placeholder="votre.email@exemple.com"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    if (errors.email) setErrors(prev => ({ ...prev, email: undefined, general: undefined }));
+                                }}
+                                className={errors.email ? 'error-input' : ''}
                                 required
                             />
                         </div>
+                        {errors.email && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.email}</span>}
                     </div>
 
                     <div className="form-group">
@@ -86,7 +124,11 @@ export default function LoginPage() {
                                 id="password"
                                 placeholder="........"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                    if (errors.password) setErrors(prev => ({ ...prev, password: undefined, general: undefined }));
+                                }}
+                                className={errors.password ? 'error-input' : ''}
                                 required
                             />
                             <button
@@ -102,17 +144,36 @@ export default function LoginPage() {
                                 )}
                             </button>
                         </div>
+                        {errors.password && <span className="error-message" style={{ color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>{errors.password}</span>}
                     </div>
 
                     <div className="form-actions">
                         <label className="remember-me">
-                            <input type="checkbox" />
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
                             <span>Se souvenir de moi</span>
                         </label>
-                        <a href="#" className="forgot-password">Mot de passe oublié ?</a>
+                        <a href="/reset-password" className="forgot-password">Mot de passe oublié ?</a>
                     </div>
 
-                    <button type="submit" className="login-btn">Se Connecter</button>
+                    <button type="submit" className="login-btn" disabled={isLoading}>
+                        {isLoading ? (
+                            <span className="loader" style={{
+                                width: '18px',
+                                height: '18px',
+                                border: '2px solid #ffffff',
+                                borderBottomColor: 'transparent',
+                                borderRadius: '50%',
+                                display: 'inline-block',
+                                boxSizing: 'border-box',
+                                animation: 'rotation 1s linear infinite'
+                            }}></span>
+                        ) : 'Se Connecter'}
+                    </button>
                 </form>
 
                 <div className="divider">

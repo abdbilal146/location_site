@@ -15,7 +15,7 @@ import Reservation from "../pages/Reservation";
 import AdminParameter from "../pages/AdminParameter";
 import TermsOfUsePage from "../pages/TermsOfUsePage";
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
-
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 export const rootRoute = createRootRoute({
     component: () => <Outlet />
@@ -117,6 +117,12 @@ export const privacyRoute = createRoute({
     component: PrivacyPolicyPage
 })
 
+export const resetPasswordRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/reset-password',
+    component: ResetPasswordPage
+})
+
 export const routeTree = rootRoute.addChildren([
     homeRoute,
     loginRoute,
@@ -133,5 +139,6 @@ export const routeTree = rootRoute.addChildren([
     reservationsRoute,
     parametresRoute,
     termsRoute,
-    privacyRoute
+    privacyRoute,
+    resetPasswordRoute
 ])
