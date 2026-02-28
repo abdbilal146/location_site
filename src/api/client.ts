@@ -26,7 +26,7 @@ export const addNewClient = async (newClient: {
 
 
     const { data } = await axios.post(
-        `${BASE_URL}api/admin/client/add`,
+        `${BASE_URL}/api/admin/client/add`,
         newClient,
         {
             headers: {
@@ -50,7 +50,7 @@ export const getAllClients = async () => {
 
 
     const { data } = await axios.get(
-        `${BASE_URL}api/admin/client`,
+        `${BASE_URL}/api/admin/client`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,

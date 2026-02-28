@@ -28,7 +28,7 @@ export const addNewCar = async (newCar: {
 
 
     const { data } = await axios.post(
-        `${BASE_URL}api/admin/cars/add`,
+        `${BASE_URL}/api/admin/cars/add`,
         newCar,
         {
             headers: {
@@ -54,7 +54,7 @@ export const getAllCars = async () => {
 
 
     const { data } = await axios.get(
-        `${BASE_URL}api/admin/cars`,
+        `${BASE_URL}/api/admin/cars`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -78,7 +78,7 @@ export const deleteCarById = async (id: number) => {
     }
 
     const { data } = await axios.delete(
-        `${BASE_URL}api/admin/cars/${id}`
+        `${BASE_URL}/api/admin/cars/${id}`
     )
 
     return data;

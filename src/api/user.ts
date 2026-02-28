@@ -19,7 +19,7 @@ export const createUser = async (newUser: {
 
     // Envoyer le token dans Authorization header
     const { data } = await axios.post(
-        `${BASE_URL}api/user`,
+        `${BASE_URL}/api/user`,
         newUser,
         {
             headers: {
@@ -41,7 +41,7 @@ export const getUserRole = async () => {
     }
 
     const { data } = await axios.post(
-        `${BASE_URL}api/user/role`,
+        `${BASE_URL}/api/user/role`,
         "",
         {
             headers: {
