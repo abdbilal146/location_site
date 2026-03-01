@@ -25,69 +25,6 @@ interface Reservation {
   status: "Confirmée" | "En cours" | "Terminée" | "Annulée";
 }
 
-const mockReservations: Reservation[] = [
-  {
-    id: "#1",
-    clientInitials: "MD",
-    clientName: "Marie Dubois",
-    vehicle: "BMW Serie 5",
-    periodStart: "2026-02-20",
-    periodEnd: "2026-02-25",
-    price: "€475",
-    status: "Confirmée",
-  },
-  {
-    id: "#2",
-    clientInitials: "JM",
-    clientName: "Jean Martin",
-    vehicle: "Audi Q5",
-    periodStart: "2026-02-18",
-    periodEnd: "2026-02-22",
-    price: "€340",
-    status: "En cours",
-  },
-  {
-    id: "#3",
-    clientInitials: "SB",
-    clientName: "Sophie Bernard",
-    vehicle: "Mercedes Classe C",
-    periodStart: "2026-02-15",
-    periodEnd: "2026-02-17",
-    price: "€240",
-    status: "Terminée",
-  },
-  {
-    id: "#4",
-    clientInitials: "PP",
-    clientName: "Pierre Petit",
-    vehicle: "Volkswagen Golf",
-    periodStart: "2026-02-22",
-    periodEnd: "2026-02-28",
-    price: "€270",
-    status: "Confirmée",
-  },
-  {
-    id: "#5",
-    clientInitials: "CD",
-    clientName: "Claire Dupont",
-    vehicle: "Toyota Camry",
-    periodStart: "2026-02-19",
-    periodEnd: "2026-02-24",
-    price: "€325",
-    status: "En cours",
-  },
-  {
-    id: "#6",
-    clientInitials: "ML",
-    clientName: "Marc Leroy",
-    vehicle: "Porsche 911",
-    periodStart: "2026-02-10",
-    periodEnd: "2026-02-12",
-    price: "€500",
-    status: "Annulée",
-  },
-];
-
 export default function Reservation() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
