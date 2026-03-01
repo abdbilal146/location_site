@@ -1,4 +1,9 @@
-import { createRootRoute, createRoute, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  createRoute,
+  Outlet,
+  redirect,
+} from "@tanstack/react-router";
 import HomePage from "../pages/HomePage";
 import SignUpPage from "../pages/SignUpPage";
 import LoginPage from "../pages/LoginPage";
@@ -16,129 +21,151 @@ import AdminParameter from "../pages/AdminParameter";
 import TermsOfUsePage from "../pages/TermsOfUsePage";
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+import type { Session } from "@supabase/supabase-js";
 
-export const rootRoute = createRootRoute({
-    component: () => <Outlet />
-})
+interface MyRouterContext {
+  session: Session | null;
+}
+
+export const rootRoute = createRootRouteWithContext<MyRouterContext>()({
+  component: () => <Outlet />,
+});
+
+export const protectedRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: "_auth",
+  component: () => <Outlet />,
+  beforeLoad: ({ context }) => {
+    if (!context.session) {
+      throw redirect({
+        to: "/login",
+      });
+    }
+  },
+});
 
 export const homeRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/',
-    component: HomePage
-})
-
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: HomePage,
+});
 export const loginRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/login',
-    component: LoginPage
-})
-
+  getParentRoute: () => rootRoute,
+  path: "/login",
+  component: LoginPage,
+  beforeLoad: ({ context }) => {
+    if (context.session) {
+      throw redirect({
+        to: "/dashboard/account",
+      });
+    }
+  },
+});
 export const signupRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/signup',
-    component: SignUpPage
-})
+  getParentRoute: () => rootRoute,
+  path: "/signup",
+  component: SignUpPage,
+  beforeLoad: ({ context }) => {
+    if (context.session) {
+      throw redirect({
+        to: "/dashboard/account",
+      });
+    }
+  },
+});
+export const carsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/cars",
+  component: CarListPage,
+});
+export const termsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/terms-of-use",
+  component: TermsOfUsePage,
+});
+export const privacyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/privacy-policy",
+  component: PrivacyPolicyPage,
+});
+export const resetPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/reset-password",
+  component: ResetPasswordPage,
+});
 
 export const accountRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/dashboard/account',
-    component: AccountPage
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/dashboard/account",
+  component: AccountPage,
+});
 export const myRentalRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/dashboard/rentals',
-    component: MyRentalsPage
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/dashboard/rentals",
+  component: MyRentalsPage,
+});
 export const settingsRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/dashboard/settings',
-    component: AccountParameterPage
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/dashboard/settings",
+  component: AccountParameterPage,
+});
 export const paymentRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/dashboard/payments',
-    component: PaymentPage
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/dashboard/payments",
+  component: PaymentPage,
+});
 export const wishlistRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/dashboard/wishlist',
-    component: WishlistPage
-})
-
-export const carsRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/cars',
-    component: CarListPage
-})
+  getParentRoute: () => protectedRoute,
+  path: "/dashboard/wishlist",
+  component: WishlistPage,
+});
 
 export const adminPanelRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/admin-panel',
-    component: AdminPanel
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/admin-panel",
+  component: AdminPanel,
+});
 export const vehiculesRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/admin-panel/vehicules',
-    component: Vehicules
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/admin-panel/vehicules",
+  component: Vehicules,
+});
 export const clientsRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/admin-panel/clients',
-    component: Clients
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/admin-panel/clients",
+  component: Clients,
+});
 export const reservationsRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/admin-panel/reservations',
-    component: Reservation
-})
-
+  getParentRoute: () => protectedRoute,
+  path: "/admin-panel/reservations",
+  component: Reservation,
+});
 export const parametresRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/admin-panel/parametres',
-    component: AdminParameter
-})
-
-export const termsRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/terms-of-use',
-    component: TermsOfUsePage
-})
-
-export const privacyRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/privacy-policy',
-    component: PrivacyPolicyPage
-})
-
-export const resetPasswordRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/reset-password',
-    component: ResetPasswordPage
-})
+  getParentRoute: () => protectedRoute,
+  path: "/admin-panel/parametres",
+  component: AdminParameter,
+});
 
 export const routeTree = rootRoute.addChildren([
-    homeRoute,
-    loginRoute,
-    signupRoute,
+  // Enfants publics
+  homeRoute,
+  loginRoute,
+  signupRoute,
+  carsRoute,
+  termsRoute,
+  privacyRoute,
+  resetPasswordRoute,
+
+  protectedRoute.addChildren([
     accountRoute,
     myRentalRoute,
     settingsRoute,
     paymentRoute,
     wishlistRoute,
-    carsRoute,
     adminPanelRoute,
     vehiculesRoute,
     clientsRoute,
     reservationsRoute,
     parametresRoute,
-    termsRoute,
-    privacyRoute,
-    resetPasswordRoute
-])
+  ]),
+]);
