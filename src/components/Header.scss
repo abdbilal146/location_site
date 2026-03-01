@@ -36,7 +36,82 @@
         }
     }
 
+    .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        z-index: 100;
+        
+        &.hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 968px) {
+            display: block;
+        }
+    }
+
+    .nav-overlay {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+
+        .mobile-header {
+            display: none;
+        }
+
+        @media (max-width: 968px) {
+            position: fixed;
+            top: 0; /* Cover the whole top including header area */
+            left: 0;
+            right: 0;
+            background-color: white;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 1rem 2rem 2rem 2rem;
+            box-sizing: border-box; /* Prevent padding from expanding width */
+            transform: translateY(-150%); /* Slide from top */
+            transition: transform 0.3s ease-in-out;
+            z-index: 99;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #e2e8f0;
+
+            &.open {
+                transform: translateY(0);
+            }
+
+            .mobile-header {
+                display: flex;
+                width: 100%;
+                justify-content: flex-start; /* Align logo to the left */
+                align-items: center;
+                margin-bottom: 2rem;
+
+                .logo-container {
+                     display: flex;
+                     gap: 0.5rem;
+                     align-items: center;
+
+                     .logo-text {
+                        color: #008f47;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                     }
+                }
+            }
+        }
+    }
+
     .navigation {
+        @media (max-width: 968px) {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
         ul {
             display: flex;
             list-style: none;
@@ -44,16 +119,28 @@
             margin: 0;
             padding: 0;
 
+            @media (max-width: 968px) {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
             li {
                 a {
                     text-decoration: none;
-                    color: #333;
-                    font-weight: 500;
+                    color: #0f172a;
+                    font-weight: 600;
                     font-size: 1rem;
                     transition: color 0.3s ease;
 
                     &:hover {
                         color: #00b359;
+                    }
+
+                    @media (max-width: 968px) {
+                        font-size: 1.1rem;
+                        display: block;
+                        width: 100%;
+                        padding: 0.5rem 0;
                     }
                 }
             }
@@ -61,6 +148,15 @@
     }
 
     .cta-container {
+        @media (max-width: 968px) {
+            width: 100%;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 2rem;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+        }
+
         .login-btn {
             background-color: #00b359;
             color: white;
@@ -71,6 +167,13 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 1rem;
+            box-sizing: border-box; /* Ensure padding doesn't affect width */
+
+            @media (max-width: 968px) {
+                width: 100%;
+                padding: 0.8rem;
+                border-radius: 8px;
+            }
 
             &:hover {
                 background-color: #00994d;
