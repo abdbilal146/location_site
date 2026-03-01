@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import {
     IconLayoutDashboard,
     IconCar,
@@ -8,6 +8,7 @@ import {
     IconSettings,
     IconLogout
 } from '@tabler/icons-react';
+import { supabase } from '../supabase/supabase';
 import './AdminSidebar.scss';
 
 interface AdminSidebarProps {
@@ -15,6 +16,14 @@ interface AdminSidebarProps {
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab = 'dashboard' }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        await supabase.auth.signOut();
+        navigate({ to: '/' });
+    };
+
     return (
         <aside className="admin-sidebar">
             <div className="admin-sidebar__brand">
@@ -63,7 +72,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab = 'dashboard' }) 
             </nav>
 
             <div className="admin-sidebar__footer">
-                <a href="#" className="admin-sidebar__logout">
+                <a href="#" className="admin-sidebar__logout" onClick={handleLogout}>
                     <IconLogout size={20} />
                     <span>Déconnexion</span>
                 </a>
