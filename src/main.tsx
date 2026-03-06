@@ -10,12 +10,15 @@ import { supabase } from "./supabase/supabase";
 import type { Session } from "@supabase/supabase-js";
 import Loading from "./pages/Loading";
 
+import LogoutPopin from "./components/auth/LogoutPopin";
+
 const queryClient = new QueryClient();
 
 // 1. Création d'un composant App pour gérer les hooks
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLogoutPopin, setShowLogoutPopin] = useState(false);
 
   useEffect(() => {
     // Récupérer la session au chargement initial
@@ -27,8 +30,11 @@ function App() {
     // Écouter les changements (connexion, déconnexion)
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
+      if (event === "SIGNED_OUT") {
+        setShowLogoutPopin(true);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -36,15 +42,16 @@ function App() {
 
   if (isLoading) {
     return <Loading></Loading>;
-    {
-      /* <div className="flex h-screen items-center justify-center">Chargement...</div> */
-    }
   }
 
   // 3. Rendre l'application en injectant la session dans le contexte du router
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} context={{ session }} />
+      <LogoutPopin
+        isVisible={showLogoutPopin}
+        onClose={() => setShowLogoutPopin(false)}
+      />
     </QueryClientProvider>
   );
 }
