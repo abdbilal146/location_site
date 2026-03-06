@@ -3,7 +3,7 @@ import "./SignUpPage.scss";
 import { supabase } from "../supabase/supabase";
 import { useNavigate, Link } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-import { createUser, getUserRole } from "../api/user";
+import { createUser } from "../api/user";
 
 interface FormErrors {
   firstName?: string;
