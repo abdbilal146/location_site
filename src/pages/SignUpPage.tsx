@@ -17,6 +17,8 @@ interface FormErrors {
   success?: string;
 }
 
+const FRONT_BASE_URL = import.meta.env.VITE_FRONT_BASE_URL;
+
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -44,6 +46,15 @@ export default function SignUpPage() {
       console.log(error);
     },
   });
+
+  const googleAuth = async () => {
+    const {} = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${FRONT_BASE_URL}/dashboard/account`,
+      },
+    });
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type, checked } = e.target;
@@ -582,7 +593,7 @@ export default function SignUpPage() {
           <span>Ou</span>
         </div>
 
-        <button type="button" className="google-btn">
+        <button type="button" className="google-btn" onClick={googleAuth}>
           <svg
             className="google-icon"
             xmlns="http://www.w3.org/2000/svg"
