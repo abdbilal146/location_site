@@ -22,6 +22,8 @@ import TermsOfUsePage from "../pages/TermsOfUsePage";
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import type { Session } from "@supabase/supabase-js";
+import { getUserRole } from "../api/user";
+import ErrorPage from "../pages/ErrorPage";
 
 interface MyRouterContext {
   session: Session | null;
@@ -35,10 +37,45 @@ export const protectedRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: "_auth",
   component: () => <Outlet />,
-  beforeLoad: ({ context }) => {
+  beforeLoad: async ({ context }) => {
     if (!context.session) {
+      throw redirect({ to: "/login" });
+    }
+
+    const userRole = (await getUserRole())?.trim().toLowerCase();
+
+    if (userRole !== "user") {
       throw redirect({
-        to: "/login",
+        to: "/error/$code",
+        params: { code: "403" },
+        search: {
+          from: "user-route",
+          reason: "not-user",
+        },
+      });
+    }
+  },
+});
+
+export const adminProtectedRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: "admin-protected",
+  component: () => <Outlet />,
+  beforeLoad: async ({ context }) => {
+    if (!context.session) {
+      throw redirect({ to: "/login" });
+    }
+
+    const userRole = (await getUserRole())?.trim().toLowerCase();
+
+    if (userRole !== "admin") {
+      throw redirect({
+        to: "/error/$code",
+        params: { code: "403" },
+        search: {
+          from: "admin-route",
+          reason: "not-admin",
+        },
       });
     }
   },
@@ -49,18 +86,27 @@ export const homeRoute = createRoute({
   path: "/",
   component: HomePage,
 });
+
 export const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/login",
   component: LoginPage,
-  beforeLoad: ({ context }) => {
+  beforeLoad: async ({ context }) => {
     if (context.session) {
-      throw redirect({
-        to: "/dashboard/account",
-      });
+      const userRole: string = await getUserRole();
+      if (userRole.trim().toLowerCase() === "admin") {
+        throw redirect({
+          to: "/admin-panel",
+        });
+      } else {
+        throw redirect({
+          to: "/dashboard/account",
+        });
+      }
     }
   },
 });
+
 export const signupRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/signup",
@@ -121,33 +167,38 @@ export const wishlistRoute = createRoute({
 });
 
 export const adminPanelRoute = createRoute({
-  getParentRoute: () => protectedRoute,
+  getParentRoute: () => adminProtectedRoute,
   path: "/admin-panel",
   component: AdminPanel,
 });
 export const vehiculesRoute = createRoute({
-  getParentRoute: () => protectedRoute,
+  getParentRoute: () => adminProtectedRoute,
   path: "/admin-panel/vehicules",
   component: Vehicules,
 });
 export const clientsRoute = createRoute({
-  getParentRoute: () => protectedRoute,
+  getParentRoute: () => adminProtectedRoute,
   path: "/admin-panel/clients",
   component: Clients,
 });
 export const reservationsRoute = createRoute({
-  getParentRoute: () => protectedRoute,
+  getParentRoute: () => adminProtectedRoute,
   path: "/admin-panel/reservations",
   component: Reservation,
 });
 export const parametresRoute = createRoute({
-  getParentRoute: () => protectedRoute,
+  getParentRoute: () => adminProtectedRoute,
   path: "/admin-panel/parametres",
   component: AdminParameter,
 });
 
+export const errorRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/error/$code",
+  component: ErrorPage,
+});
+
 export const routeTree = rootRoute.addChildren([
-  // Enfants publics
   homeRoute,
   loginRoute,
   signupRoute,
@@ -155,6 +206,7 @@ export const routeTree = rootRoute.addChildren([
   termsRoute,
   privacyRoute,
   resetPasswordRoute,
+  errorRoute,
 
   protectedRoute.addChildren([
     accountRoute,
@@ -162,6 +214,10 @@ export const routeTree = rootRoute.addChildren([
     settingsRoute,
     paymentRoute,
     wishlistRoute,
+
+    // ← routes admin à l’intérieur du adminProtectedRoute
+  ]),
+  adminProtectedRoute.addChildren([
     adminPanelRoute,
     vehiculesRoute,
     clientsRoute,

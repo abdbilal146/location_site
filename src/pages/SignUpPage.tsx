@@ -3,7 +3,7 @@ import "./SignUpPage.scss";
 import { supabase } from "../supabase/supabase";
 import { useNavigate, Link } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-import { createUser } from "../api/user";
+import { createUser, getUserRole } from "../api/user";
 
 interface FormErrors {
   firstName?: string;
@@ -121,12 +121,12 @@ export default function SignUpPage() {
     return isValid;
   };
 
-  const addUserInfo = (userInfo: {
+  const addUserInfo = async (userInfo: {
     name: string;
     familyName: string;
     phoneNumber: string;
   }) => {
-    mutation.mutate({
+    await mutation.mutateAsync({
       ...userInfo,
     });
   };
@@ -164,13 +164,17 @@ export default function SignUpPage() {
         return;
       }
 
-      addUserInfo({
+      await addUserInfo({
         name: name,
         familyName: familyName,
         phoneNumber: phoneNumber,
       });
 
-      navigate({ to: "/dashboard/account" });
+      const userRole: string = (await getUserRole())?.trim().toLowerCase();
+
+      if (userRole === "user") {
+        navigate({ to: "/dashboard/account" });
+      }
     } catch (err) {
       console.error("Erreur d'inscription ou d'authentification :", err);
       setErrors((prev) => ({
