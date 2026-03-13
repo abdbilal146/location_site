@@ -1,8 +1,14 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useParams, useSearch } from "@tanstack/react-router";
 import "./ErrorPage.scss";
 
 interface ErrorPageProps {
   errorCode?: string | number;
+  title?: string;
+  message?: string;
+}
+
+// 1. Définition stricte de ce qu'on attend dans l'URL (?title=...&message=...)
+interface ErrorSearchParams {
   title?: string;
   message?: string;
 }
@@ -12,11 +18,66 @@ export default function ErrorPage({
   title = "Page Introuvable",
   message = "Oups ! La page que vous recherchez semble avoir pris une autre route.",
 }: ErrorPageProps) {
+  let paramCode: string | undefined;
+  let searchParams: ErrorSearchParams = {};
+
+  // 2 Récupération sécurisée des params d'URL
+  try {
+    const params = useParams({ from: "/error/$code" });
+    paramCode = params.code;
+  } catch {
+    paramCode = undefined;
+  }
+
+  // 3 Récupération sécurisée des search params
+  try {
+    searchParams = useSearch({ strict: false }) as ErrorSearchParams;
+  } catch {
+    searchParams = {};
+  }
+
+  const finalErrorCode = paramCode ?? errorCode;
+
+  let defaultTitleForCode = title;
+  let defaultMessageForCode = message;
+
+  if (
+    title === "Page Introuvable" &&
+    message ===
+      "Oups ! La page que vous recherchez semble avoir pris une autre route."
+  ) {
+    switch (String(finalErrorCode)) {
+      case "403":
+        defaultTitleForCode = "Accès Refusé";
+        defaultMessageForCode =
+          "Vous n'êtes pas autorisé à accéder à cette page.";
+        break;
+      case "404":
+        // On laisse les valeurs par défaut
+        break;
+      case "500":
+        defaultTitleForCode = "Erreur Serveur";
+        defaultMessageForCode =
+          "Un problème inattendu est survenu de notre côté. Veuillez réessayer plus tard.";
+        break;
+      default:
+        // Pour les autres codes (400, 401, etc.)
+        if (String(finalErrorCode) !== "404") {
+          defaultTitleForCode = "Une erreur est survenue";
+          defaultMessageForCode = "Nous avons rencontré un problème inattendu.";
+        }
+    }
+  }
+
+  // Priorité : URL (Search Params) > Props (si modifiées) > Valeurs par défaut du Switch
+  const finalTitle = searchParams.title ?? defaultTitleForCode;
+  const finalMessage = searchParams.message ?? defaultMessageForCode;
+
   return (
     <div className="error-page-container">
       <div className="error-card">
         <div className="icon-circle">
-          {String(errorCode) === "404" ? (
+          {String(finalErrorCode) === "404" ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="36"
@@ -52,9 +113,9 @@ export default function ErrorPage({
           )}
         </div>
 
-        <h1 className="error-code">{errorCode}</h1>
-        <h2 className="error-title">{title}</h2>
-        <p className="error-description">{message}</p>
+        <h1 className="error-code">{finalErrorCode}</h1>
+        <h2 className="error-title">{finalTitle}</h2>
+        <p className="error-description">{finalMessage}</p>
 
         <div className="error-actions">
           <Link to="/" className="btn btn-primary">
