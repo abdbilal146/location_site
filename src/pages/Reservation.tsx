@@ -13,6 +13,7 @@ import { getAllReservations } from "../api/reservation";
 import ErrorPage from "./ErrorPage";
 import { isAxiosError } from "axios";
 import Loading from "./Loading";
+import AdminNavbar from "../components/AdminNavbar";
 
 interface Reservation {
   id: string;
@@ -55,6 +56,7 @@ export default function Reservation() {
     <div className="reservations-wrapper">
       <AdminSidebar activeTab="reservations" />
       <main className="reservations-content">
+        <AdminNavbar />
         <header className="reservations-header">
           <div className="reservations-header__title-section">
             <h1 className="reservations-header__title">Réservations</h1>

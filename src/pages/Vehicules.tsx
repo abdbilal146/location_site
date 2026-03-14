@@ -13,6 +13,7 @@ import { getAllCars } from "../api/car";
 import Loading from "./Loading";
 import { isAxiosError } from "axios";
 import ErrorPage from "./ErrorPage";
+import AdminNavbar from "../components/AdminNavbar";
 
 export default function Vehicules() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,6 +46,7 @@ export default function Vehicules() {
     <div className="vehicules-wrapper">
       <AdminSidebar activeTab="vehicules" />
       <main className="vehicles-content">
+        <AdminNavbar />
         <header className="vehicles-header">
           <div className="vehicles-header__title-section">
             <h1 className="vehicles-header__title">Gestion des Véhicules</h1>

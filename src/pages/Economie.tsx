@@ -25,6 +25,7 @@ import {
   Bar
 } from "recharts";
 import "./Economie.scss";
+import AdminNavbar from "../components/AdminNavbar";
 
 // Mock Data
 const stats = {
@@ -82,6 +83,7 @@ const Economie: React.FC = () => {
     <div className="admin-layout economie-page">
       <AdminSidebar activeTab="economie" />
       <main className="admin-main-content">
+        <AdminNavbar />
         <header className="economie-header">
           <div className="economie-header__titles">
             <h1 className="economie-header__title">Gestion Économique</h1>

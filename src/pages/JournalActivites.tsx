@@ -14,6 +14,7 @@ import {
   IconSettings
 } from "@tabler/icons-react";
 import "./JournalActivites.scss";
+import AdminNavbar from "../components/AdminNavbar";
 
 // Mock Data
 const activitiesData = [
@@ -181,6 +182,7 @@ const JournalActivites: React.FC = () => {
     <div className="admin-layout journal-page">
       <AdminSidebar activeTab="journal" />
       <main className="admin-main-content">
+        <AdminNavbar />
         <header className="journal-header">
           <div className="journal-header__titles">
             <h1 className="journal-header__title">Journal d'Activités</h1>
