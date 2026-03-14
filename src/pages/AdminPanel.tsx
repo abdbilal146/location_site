@@ -14,6 +14,7 @@ import { getAllClients } from "../api/client";
 import { getAllCars } from "../api/car";
 import Loading from "./Loading";
 import { getAllReservations } from "../api/reservation";
+import { getMonthlyRevenue } from "../api/revenue";
 
 const AdminPanel: React.FC = () => {
   const results = useQueries({
@@ -30,15 +31,20 @@ const AdminPanel: React.FC = () => {
         queryKey: ["reservations"],
         queryFn: getAllReservations,
       },
+      {
+        queryKey: ["revenue"],
+        queryFn: getMonthlyRevenue,
+      },
     ],
   });
 
-  const [clientsQuery, carsQuery, reservationsQuery] = results;
+  const [clientsQuery, carsQuery, reservationsQuery, revenueQuery] = results;
 
   if (
     clientsQuery.isLoading ||
     carsQuery.isLoading ||
-    reservationsQuery.isLoading
+    reservationsQuery.isLoading ||
+    revenueQuery.isLoading
   ) {
     return <Loading></Loading>;
   }
@@ -84,8 +90,8 @@ const AdminPanel: React.FC = () => {
           />
           <AdminStatCard
             title="Revenu Mensuel"
-            value="€45,231"
-            change="+15%"
+            value={`€ ${revenueQuery.data?.totalRevenue}`}
+            change={`+${revenueQuery.data?.revenueGrowthPercentage}%`}
             changeType="positive"
             icon={<IconChartLine size={24} />}
             iconBgColor="#f97316"
