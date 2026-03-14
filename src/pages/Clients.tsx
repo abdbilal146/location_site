@@ -16,6 +16,7 @@ import { deleteClientById, getAllClients } from "../api/client";
 import Loading from "./Loading";
 import ErrorPage from "./ErrorPage";
 import { isAxiosError } from "axios";
+import AdminNavbar from "../components/AdminNavbar";
 
 export default function Clients() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +73,7 @@ export default function Clients() {
     <div className="clients-wrapper">
       <AdminSidebar activeTab="clients" />
       <main className="clients-content">
+        <AdminNavbar />
         <header className="clients-header">
           <div className="clients-header__title-section">
             <h1 className="clients-header__title">Clients</h1>

@@ -15,6 +15,7 @@ import { getAllCars } from "../api/car";
 import Loading from "./Loading";
 import { getAllReservations } from "../api/reservation";
 import { getMonthlyRevenue } from "../api/revenue";
+import AdminNavbar from "../components/AdminNavbar";
 
 const AdminPanel: React.FC = () => {
   const results = useQueries({
@@ -53,6 +54,7 @@ const AdminPanel: React.FC = () => {
     <div className="admin-layout">
       <AdminSidebar />
       <main className="admin-main-content">
+        <AdminNavbar />
         <header className="admin-header">
           <h1 className="admin-header__title">Tableau de Bord</h1>
           <p className="admin-header__subtitle">

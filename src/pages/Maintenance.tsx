@@ -10,6 +10,7 @@ import {
   IconCalendarEvent
 } from "@tabler/icons-react";
 import "./Maintenance.scss";
+import AdminNavbar from "../components/AdminNavbar";
 
 // Mock Data
 const stats = {
@@ -104,6 +105,7 @@ const Maintenance: React.FC = () => {
     <div className="admin-layout maintenance-page">
       <AdminSidebar activeTab="maintenance" />
       <main className="admin-main-content">
+        <AdminNavbar />
         <header className="maintenance-header">
           <div className="maintenance-header__titles">
             <h1 className="maintenance-header__title">Gestion de Maintenance</h1>

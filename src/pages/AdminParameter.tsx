@@ -2,12 +2,14 @@
 import AdminSidebar from '../components/AdminSidebar';
 import { IconGlobe, IconWorld, IconBell } from '@tabler/icons-react';
 import './AdminParameter.scss';
+import AdminNavbar from "../components/AdminNavbar";
 
 export default function AdminParameter() {
     return (
         <div className="admin-parameter-wrapper">
             <AdminSidebar activeTab="parametres" />
             <main className="admin-parameter-content">
+        <AdminNavbar />
                 <header className="admin-parameter-header">
                     <div className="admin-parameter-header__title-section">
                         <h1 className="admin-parameter-header__title">Paramètres</h1>
