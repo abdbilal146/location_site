@@ -17,21 +17,6 @@ import Loading from "./Loading";
 import ErrorPage from "./ErrorPage";
 import { isAxiosError } from "axios";
 
-/* interface Client {
-    id: string;
-    initials: string;
-    name: string;
-    email: string;
-    phone: string;
-    reservations: number;
-    date: string;
-    status: 'Active' | 'Inactive';
-} */
-
-/* const mockClients: Client[] = [
-    { id: '1', initials: 'MD', name: 'Marie Dubois', email: 'marie.dubois@email.com', phone: '+33 6 12 34 56 78', reservations: 12, date: '2025-08-15', status: 'Active' },
-]
- */
 export default function Clients() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -41,12 +26,12 @@ export default function Clients() {
   const mutation = useMutation({
     mutationFn: deleteClientById,
     mutationKey: ["clients"],
-    onSuccess(data, variables, onMutateResult, context) {
+    onSuccess() {
       queryClient.invalidateQueries({
-        queryKey:["clients"]
-      })
+        queryKey: ["clients"],
+      });
     },
-    onError: (error) => {},
+    onError: () => {},
   });
 
   const { data, isLoading, error } = useQuery({
@@ -79,7 +64,7 @@ export default function Clients() {
       onSuccess: () => {
         setIsDeleteModalOpen(false);
         setClientToDelete(null);
-      }
+      },
     });
   };
 
