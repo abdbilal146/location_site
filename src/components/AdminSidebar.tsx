@@ -6,13 +6,14 @@ import {
     IconUsers,
     IconFileDescription,
     IconSettings,
-    IconLogout
+    IconLogout,
+    IconTrendingUp
 } from '@tabler/icons-react';
 import { supabase } from '../supabase/supabase';
 import './AdminSidebar.scss';
 
 interface AdminSidebarProps {
-    activeTab?: 'dashboard' | 'vehicules' | 'clients' | 'reservations' | 'parametres';
+    activeTab?: 'dashboard' | 'vehicules' | 'economie' | 'clients' | 'reservations' | 'parametres';
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab = 'dashboard' }) => {
@@ -48,6 +49,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab = 'dashboard' }) 
                         <Link to="/admin-panel/vehicules" className="admin-sidebar__nav-link">
                             <IconCar size={20} />
                             <span>Gestion Véhicules</span>
+                        </Link>
+                    </li>
+                    <li className={`admin-sidebar__nav-item ${activeTab === 'economie' ? 'active' : ''}`}>
+                        <Link to="/admin-panel/economie" className="admin-sidebar__nav-link">
+                            <IconTrendingUp size={20} />
+                            <span>Économie</span>
                         </Link>
                     </li>
                     <li className={`admin-sidebar__nav-item ${activeTab === 'clients' ? 'active' : ''}`}>

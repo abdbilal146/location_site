@@ -8,31 +8,31 @@ import {
   IconPlus,
 } from "@tabler/icons-react";
 import AddClientModal from "../components/AddClientModal";
+import ConfirmationModal from "../components/ConfirmationModal";
 import ActionDropdown from "../components/ActionDropdown";
 import "./Clients.scss";
-import { useQuery } from "@tanstack/react-query";
-import { getAllClients } from "../api/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteClientById, getAllClients } from "../api/client";
 import Loading from "./Loading";
 import ErrorPage from "./ErrorPage";
 import { isAxiosError } from "axios";
 
-/* interface Client {
-    id: string;
-    initials: string;
-    name: string;
-    email: string;
-    phone: string;
-    reservations: number;
-    date: string;
-    status: 'Active' | 'Inactive';
-} */
-
-/* const mockClients: Client[] = [
-    { id: '1', initials: 'MD', name: 'Marie Dubois', email: 'marie.dubois@email.com', phone: '+33 6 12 34 56 78', reservations: 12, date: '2025-08-15', status: 'Active' },
-]
- */
 export default function Clients() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState<number | null>(null);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: deleteClientById,
+    mutationKey: ["clients"],
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["clients"],
+      });
+    },
+    onError: () => {},
+  });
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["clients"],
@@ -58,6 +58,15 @@ export default function Clients() {
   }
 
   console.log("clients are ", data);
+
+  const deleteClient = (id: number) => {
+    mutation.mutate(id, {
+      onSuccess: () => {
+        setIsDeleteModalOpen(false);
+        setClientToDelete(null);
+      },
+    });
+  };
 
   return (
     <div className="clients-wrapper">
@@ -139,7 +148,10 @@ export default function Clients() {
                     <ActionDropdown
                       onView={() => console.log("View client", client.id)}
                       onEdit={() => console.log("Edit client", client.id)}
-                      onDelete={() => console.log("Delete client", client.id)}
+                      onDelete={() => {
+                        setClientToDelete(client.id);
+                        setIsDeleteModalOpen(true);
+                      }}
                     />
                   </td>
                 </tr>
@@ -151,6 +163,22 @@ export default function Clients() {
         <AddClientModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
+        />
+
+        <ConfirmationModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => {
+            setIsDeleteModalOpen(false);
+            setClientToDelete(null);
+          }}
+          onConfirm={() => {
+            if (clientToDelete !== null) {
+              deleteClient(clientToDelete);
+            }
+          }}
+          isLoading={mutation.isPending}
+          title="Supprimer le client"
+          message="Êtes-vous sûr de vouloir supprimer ce client ? Cette action est irréversible."
         />
       </main>
     </div>

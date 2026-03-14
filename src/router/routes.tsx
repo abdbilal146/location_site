@@ -17,6 +17,7 @@ import AdminPanel from "../pages/AdminPanel";
 import Vehicules from "../pages/Vehicules";
 import Clients from "../pages/Clients";
 import Reservation from "../pages/Reservation";
+import Economie from "../pages/Economie";
 import AdminParameter from "../pages/AdminParameter";
 import TermsOfUsePage from "../pages/TermsOfUsePage";
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
@@ -176,6 +177,11 @@ export const vehiculesRoute = createRoute({
   path: "/admin-panel/vehicules",
   component: Vehicules,
 });
+export const economieRoute = createRoute({
+  getParentRoute: () => adminProtectedRoute,
+  path: "/admin-panel/economie",
+  component: Economie,
+});
 export const clientsRoute = createRoute({
   getParentRoute: () => adminProtectedRoute,
   path: "/admin-panel/clients",
@@ -220,6 +226,7 @@ export const routeTree = rootRoute.addChildren([
   adminProtectedRoute.addChildren([
     adminPanelRoute,
     vehiculesRoute,
+    economieRoute,
     clientsRoute,
     reservationsRoute,
     parametresRoute,
