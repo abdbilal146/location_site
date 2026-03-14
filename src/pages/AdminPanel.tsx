@@ -67,7 +67,7 @@ const AdminPanel: React.FC = () => {
             change="+12%"
             changeType="positive"
             icon={<IconCar size={24} />}
-            iconBgColor="#10b981"
+            iconBgColor="#22c55e"
             iconColor="#ffffff"
           />
           <AdminStatCard

@@ -5,15 +5,18 @@ import {
     IconCar,
     IconUsers,
     IconFileDescription,
-    IconSettings,
     IconLogout,
-    IconTrendingUp
+    IconTrendingUp,
+    IconTool,
+    IconSettings,
+    IconHistory,
+    IconTag
 } from '@tabler/icons-react';
 import { supabase } from '../supabase/supabase';
 import './AdminSidebar.scss';
 
 interface AdminSidebarProps {
-    activeTab?: 'dashboard' | 'vehicules' | 'economie' | 'clients' | 'reservations' | 'parametres';
+    activeTab?: 'dashboard' | 'vehicules' | 'maintenance' | 'economie' | 'clients' | 'reservations' | 'promotions' | 'journal' | 'parametres';
 }
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab = 'dashboard' }) => {
@@ -51,6 +54,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab = 'dashboard' }) 
                             <span>Gestion Véhicules</span>
                         </Link>
                     </li>
+                    <li className={`admin-sidebar__nav-item ${activeTab === 'maintenance' ? 'active' : ''}`}>
+                        <Link to="/admin-panel/maintenance" className="admin-sidebar__nav-link">
+                            <IconTool size={20} />
+                            <span>Maintenance</span>
+                        </Link>
+                    </li>
                     <li className={`admin-sidebar__nav-item ${activeTab === 'economie' ? 'active' : ''}`}>
                         <Link to="/admin-panel/economie" className="admin-sidebar__nav-link">
                             <IconTrendingUp size={20} />
@@ -67,6 +76,18 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab = 'dashboard' }) 
                         <Link to="/admin-panel/reservations" className="admin-sidebar__nav-link">
                             <IconFileDescription size={20} />
                             <span>Réservations</span>
+                        </Link>
+                    </li>
+                    <li className={`admin-sidebar__nav-item ${activeTab === 'promotions' ? 'active' : ''}`}>
+                        <Link to="/admin-panel/promotions" className="admin-sidebar__nav-link">
+                            <IconTag size={20} />
+                            <span>Promotions</span>
+                        </Link>
+                    </li>
+                    <li className={`admin-sidebar__nav-item ${activeTab === 'journal' ? 'active' : ''}`}>
+                        <Link to="/admin-panel/journal" className="admin-sidebar__nav-link">
+                            <IconHistory size={20} />
+                            <span>Journal d'Activités</span>
                         </Link>
                     </li>
                     <li className={`admin-sidebar__nav-item ${activeTab === 'parametres' ? 'active' : ''}`}>
