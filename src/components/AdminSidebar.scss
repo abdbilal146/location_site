@@ -19,7 +19,7 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
         &-icon {
-            background-color: #10b981; // Green
+            background-color: #22c55e; // Green
             padding: 6px;
             border-radius: 8px;
             display: flex;
@@ -58,7 +58,7 @@
             border-radius: 8px;
 
             &.active {
-                background-color: #10b981;
+                background-color: #22c55e;
 
                 .admin-sidebar__nav-link {
                     color: white;

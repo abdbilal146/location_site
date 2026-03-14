@@ -18,6 +18,8 @@ import Vehicules from "../pages/Vehicules";
 import Clients from "../pages/Clients";
 import Reservation from "../pages/Reservation";
 import Economie from "../pages/Economie";
+import Maintenance from "../pages/Maintenance";
+import JournalActivites from "../pages/JournalActivites";
 import AdminParameter from "../pages/AdminParameter";
 import TermsOfUsePage from "../pages/TermsOfUsePage";
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
@@ -177,6 +179,21 @@ export const vehiculesRoute = createRoute({
   path: "/admin-panel/vehicules",
   component: Vehicules,
 });
+export const journalRoute = createRoute({
+  getParentRoute: () => adminProtectedRoute,
+  path: "/admin-panel/journal",
+  component: JournalActivites,
+});
+export const promotionsRoute = createRoute({
+  getParentRoute: () => adminProtectedRoute,
+  path: "/admin-panel/promotions",
+  component: () => <div style={{ padding: '2rem' }}><h1>Promotions</h1><p>En construction...</p></div>,
+});
+export const maintenanceRoute = createRoute({
+  getParentRoute: () => adminProtectedRoute,
+  path: "/admin-panel/maintenance",
+  component: Maintenance,
+});
 export const economieRoute = createRoute({
   getParentRoute: () => adminProtectedRoute,
   path: "/admin-panel/economie",
@@ -226,9 +243,12 @@ export const routeTree = rootRoute.addChildren([
   adminProtectedRoute.addChildren([
     adminPanelRoute,
     vehiculesRoute,
+    maintenanceRoute,
     economieRoute,
     clientsRoute,
     reservationsRoute,
+    promotionsRoute,
+    journalRoute,
     parametresRoute,
   ]),
 ]);

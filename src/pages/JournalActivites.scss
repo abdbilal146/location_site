@@ -1,0 +1,266 @@
+.journal-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.journal-header {
+  margin-bottom: 2rem;
+
+  &__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+  }
+}
+
+.journal-content {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.journal-filters {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.journal-search {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+
+  &__icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.625rem 1rem 0.625rem 2.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: #22c55e;
+    }
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+}
+
+.journal-selects {
+  display: flex;
+  gap: 1rem;
+}
+
+.journal-select {
+  padding: 0.625rem 2.5rem 0.625rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.875rem;
+  background-color: white;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+
+  &:focus {
+    border-color: #22c55e;
+  }
+}
+
+.activities-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #f8fafc;
+  }
+
+  &__left {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  &__header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  &__desc {
+    font-size: 0.875rem;
+    color: #475569;
+    margin: 0;
+  }
+
+  &__author {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin: 0;
+    margin-top: 0.25rem;
+  }
+
+  &__right {
+    white-space: nowrap;
+    margin-left: 1rem;
+  }
+
+  &__date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+}
+
+/* Icons */
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &--creation {
+    background-color: #dcfce7;
+    color: #22c55e;
+  }
+
+  &--modification {
+    background-color: #dbeafe;
+    color: #3b82f6;
+  }
+
+  &--suppression {
+    background-color: #fee2e2;
+    color: #ef4444;
+  }
+
+  &--system {
+    background-color: #f1f5f9;
+    color: #64748b;
+  }
+}
+
+/* Badges */
+.badge-action {
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &--creation {
+    background-color: #dcfce7;
+    color: #22c55e;
+  }
+
+  &--modification {
+    background-color: #dbeafe;
+    color: #3b82f6;
+  }
+
+  &--suppression {
+    background-color: #fee2e2;
+    color: #ef4444;
+  }
+
+  &--connexion {
+    background-color: #f1f5f9;
+    color: #64748b;
+  }
+}
+
+.badge-entity {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 6px;
+  background-color: #f1f5f9;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+}
+
+@media (max-width: 768px) {
+  .journal-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .journal-selects {
+    flex-direction: column;
+  }
+
+  .activity-item {
+    flex-direction: column;
+    gap: 1rem;
+
+    &__right {
+      margin-left: 0;
+      padding-left: 3.5rem; /* align with text */
+    }
+  }
+}
