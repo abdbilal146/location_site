@@ -1,0 +1,231 @@
+.economie-page {
+  /* Layout handled by .admin-layout and .admin-main-content from global styles (e.g. AdminPanel.scss) */
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.economie-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+
+  &__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+  }
+
+  &__export-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #16a34a;
+    }
+  }
+}
+
+.economie-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.economie-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  &__filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+
+    select {
+      border: none;
+      background: transparent;
+      color: #64748b;
+      font-size: 0.875rem;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+
+  &__chart {
+    width: 100%;
+  }
+
+  &--linechart {
+    grid-column: 1 / 2;
+  }
+
+  &--piechart {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--list {
+    grid-column: 1 / 2;
+  }
+
+  &--barchart {
+    grid-column: 2 / 3;
+  }
+}
+
+/* Custom styling for Pie Legend */
+.economie-pie-legend {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #475569;
+
+    .color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+
+  &__amount {
+    font-weight: 600;
+    color: #1e293b;
+  }
+}
+
+/* Custom styling for Top Vehicles List */
+.top-vehicles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.top-vehicle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__rank {
+    width: 28px;
+    height: 28px;
+    background-color: #22c55e;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  &__reservations {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__revenue {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 0.9375rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .economie-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .economie-card--linechart,
+  .economie-card--piechart,
+  .economie-card--list,
+  .economie-card--barchart {
+    grid-column: 1 / -1;
+  }
+}
